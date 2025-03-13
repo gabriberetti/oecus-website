@@ -52,23 +52,23 @@ export default function PremieresPage() {
 
   return (
     <SharedLayout>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mx-auto max-w-3xl text-center mb-20"
+          className="mx-auto max-w-3xl text-center pt-8 sm:pt-12 pb-12 sm:pb-16"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
             Premieres
           </h1>
-          <p className="text-lg leading-8 text-gray-300">
+          <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-300">
             Showcasing the finest unreleased electronic music. Submit your track for premiere consideration.
           </p>
         </motion.div>
 
-        <div className="mt-20">
-          <h2 className="text-2xl font-bold tracking-tight mb-8">Premiere Series</h2>
+        <div className="mt-8 sm:mt-16">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-4 sm:mb-8">Premiere Series</h2>
           <div className="w-full rounded-lg overflow-hidden shadow-lg">
             <iframe
               width="100%"
@@ -89,15 +89,15 @@ export default function PremieresPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-20 mx-auto max-w-2xl"
+          className="mt-12 sm:mt-16 mx-auto max-w-2xl"
         >
           <div className="prose prose-invert max-w-none">
-            <p className="text-lg leading-8 text-gray-300 mb-12">
+            <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-300 mb-8 sm:mb-12">
               We offer a professional premiere service designed to maximize exposure for your release. With over 1 million plays annually, our platform connects your music with a dedicated audience in the electronic music scene.
             </p>
 
-            <div className="mb-12">
-              <h3 className="text-xl font-bold tracking-tight mb-6">Premiere Package</h3>
+            <div className="mb-8 sm:mb-12">
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-4 sm:mb-6">Premiere Package</h3>
               <ul className="list-none space-y-4 text-gray-300">
                 <li className="flex items-center space-x-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-gray-300 flex-shrink-0"></span>

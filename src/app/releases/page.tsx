@@ -25,21 +25,18 @@ const BandcampEmbed = ({ release }: { release: Release }) => {
     return () => clearTimeout(timer)
   }, [])
 
-  // Adjust height based on screen size
-  const iframeHeight = typeof window !== 'undefined' && window.innerWidth < 640 ? '500px' : '600px'
-
   return (
     <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white/5 backdrop-blur-sm border border-white/10 h-full">
       {isLoading && (
-        <div className="flex items-center justify-center h-[500px] sm:h-[600px] bg-black/30 absolute top-0 left-0 w-full z-10">
+        <div className="flex items-center justify-center h-[600px] bg-black/30 absolute top-0 left-0 w-full z-10">
           <div className="animate-pulse flex flex-col items-center">
-            <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full border-4 border-t-white border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
-            <p className="mt-4 text-sm sm:text-base text-gray-400">Loading release...</p>
+            <div className="h-16 w-16 rounded-full border-4 border-t-white border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+            <p className="mt-4 text-gray-400">Loading release...</p>
           </div>
         </div>
       )}
       <iframe
-        style={{ border: 0, width: '100%', height: iframeHeight }}
+        style={{ border: 0, width: '100%', height: '600px' }}
         src={`https://bandcamp.com/EmbeddedPlayer/album=${release.id}/size=large/bgcol=181818/linkcol=ffffff/artwork=large/tracklist=true/transparent=true/`}
         seamless
         loading="lazy"
@@ -195,17 +192,17 @@ export default function ReleasesPage() {
 
   return (
     <SharedLayout>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mx-auto max-w-3xl text-center mb-20"
+          className="mx-auto max-w-3xl text-center pt-8 sm:pt-12 pb-12 sm:pb-16"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
             Releases
           </h1>
-          <p className="text-lg leading-8 text-gray-300">
+          <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-300">
             Our curated collection of electronic music releases, showcasing emerging and established artists.
           </p>
         </motion.div>
@@ -216,7 +213,7 @@ export default function ReleasesPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mx-auto max-w-7xl"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {displayedReleases.map((release, index) => (
               <motion.div
                 key={release.id + release.title}

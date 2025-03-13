@@ -16,12 +16,11 @@ export default function SharedLayout({ children }: SharedLayoutProps) {
           className="object-cover opacity-20"
           priority
           quality={100}
-          sizes="100vw"
         />
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 pt-24 pb-16 sm:pt-28 sm:pb-24 md:py-32 lg:py-40">
+      <div className="relative z-10 pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-32">
         {children}
       </div>
     </div>
