@@ -96,7 +96,6 @@ export default function Home() {
           preload="auto"
           className="absolute h-full w-full object-cover"
           style={{ position: 'fixed' }}
-          poster="/images/OECUS Logo White.png"
         >
           <source src="/website_background.mov" type="video/mp4" />
           <source src="/website_background.mov" type="video/quicktime" />
