@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server'
-import { kv } from '@vercel/kv'
-import cheerio from 'cheerio'
+import * as cheerio from 'cheerio'
 
 const BANDCAMP_URL = 'https://oecus.bandcamp.com'
-const CACHE_KEY = 'bandcamp_releases'
-const CACHE_DURATION = 3600 // 1 hour in seconds
 
 interface Release {
   title: string
@@ -23,7 +20,7 @@ async function fetchBandcampReleases(): Promise<Release[]> {
     const releases: Release[] = []
 
     // Parse music grid items
-    $('.music-grid-item').each((_, element) => {
+    $('.music-grid-item').each((index: number, element: any) => {
       const $el = $(element)
       const title = $el.find('.title').text().trim()
       const artist = $el.find('.artist-override').text().trim()
@@ -51,19 +48,9 @@ async function fetchBandcampReleases(): Promise<Release[]> {
 
 export async function GET() {
   try {
-    // Try to get cached data first
-    let releases = await kv.get<Release[]>(CACHE_KEY)
-
-    // If no cached data or cache expired, fetch new data
-    if (!releases) {
-      releases = await fetchBandcampReleases()
-      
-      // Cache the results if we got any
-      if (releases.length > 0) {
-        await kv.set(CACHE_KEY, releases, { ex: CACHE_DURATION })
-      }
-    }
-
+    // Fetch data directly without caching
+    const releases = await fetchBandcampReleases()
+    
     return NextResponse.json({ releases })
   } catch (error) {
     console.error('Error in Bandcamp releases API:', error)
