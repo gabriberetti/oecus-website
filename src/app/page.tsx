@@ -119,8 +119,8 @@ export default function Home() {
       </div>
 
       {/* Main content */}
-      <div className="relative px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl py-16 sm:py-24">
+      <div className="relative px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl py-12 sm:py-16 md:py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -138,9 +138,9 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mx-auto max-w-7xl pb-24"
+          className="mx-auto max-w-7xl pb-16 sm:pb-24"
         >
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
             {features.map((feature) => (
               <motion.div
                 key={feature.name}
@@ -151,13 +151,13 @@ export default function Home() {
                 className="relative group h-full"
               >
                 <Link href={feature.href} className="block h-full">
-                  <div className="rounded-2xl border border-white/10 p-8 backdrop-blur bg-white/5 transition-colors group-hover:bg-white/10 shadow-lg h-full flex flex-col">
-                    <div className="flex items-center gap-x-4 mb-6">
-                      <feature.icon className="h-8 w-8 text-white/80 flex-shrink-0" aria-hidden="true" />
-                      <h2 className="text-2xl font-semibold tracking-wide">{feature.name}</h2>
+                  <div className="rounded-2xl border border-white/10 p-6 sm:p-8 backdrop-blur bg-white/5 transition-colors group-hover:bg-white/10 shadow-lg h-full flex flex-col">
+                    <div className="flex items-center gap-x-4 mb-4 sm:mb-6">
+                      <feature.icon className="h-7 w-7 sm:h-8 sm:w-8 text-white/80 flex-shrink-0" aria-hidden="true" />
+                      <h2 className="text-xl sm:text-2xl font-semibold tracking-wide">{feature.name}</h2>
                     </div>
-                    <p className="text-base text-gray-400 leading-7 tracking-wide flex-grow">{feature.description}</p>
-                    <div className="mt-8 flex items-center text-base font-semibold text-gray-300 group-hover:text-white transition-colors">
+                    <p className="text-sm sm:text-base text-gray-400 leading-7 tracking-wide flex-grow">{feature.description}</p>
+                    <div className="mt-6 sm:mt-8 flex items-center text-sm sm:text-base font-semibold text-gray-300 group-hover:text-white transition-colors">
                       Learn more
                       <svg
                         className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
@@ -185,33 +185,33 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mx-auto max-w-7xl py-20 bg-black/80 backdrop-blur-sm rounded-2xl border border-white/10 mb-20"
+          className="mx-auto max-w-7xl py-12 sm:py-20 bg-black/80 backdrop-blur-sm rounded-2xl border border-white/10 mb-12 sm:mb-20"
         >
-          <div className="px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-6">About OECUS</h2>
-              <p className="text-base leading-8 text-gray-300">
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-10 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight md:text-4xl mb-4 sm:mb-6">About OECUS</h2>
+              <p className="text-sm sm:text-base leading-7 sm:leading-8 text-gray-300">
                 A pioneering force in underground electronic music since 2015, dedicated to discovering and promoting innovative and talented artists.
               </p>
             </div>
             
-            <div className="mx-auto max-w-4xl mb-16">
+            <div className="mx-auto max-w-4xl mb-10 sm:mb-16">
               <ImageCarousel images={carouselImages} />
             </div>
 
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               <div className="text-center">
-                <p className="text-base leading-8 text-gray-300">
+                <p className="text-sm sm:text-base leading-7 sm:leading-8 text-gray-300">
                   Founded in 2015, OECUS began as a collective, quickly establishing itself as a significant force in the underground electronic music scene.
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-base leading-8 text-gray-300">
+                <p className="text-sm sm:text-base leading-7 sm:leading-8 text-gray-300">
                   From 2018 to 2022, OECUS expanded its influence with an artist management and booking agency, representing talented artists who are now established players in the scene.
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-base leading-8 text-gray-300">
+                <p className="text-sm sm:text-base leading-7 sm:leading-8 text-gray-300">
                   For more than 10 years, OECUS has been hosting its own event in various clubs locally and internationally, continuing to create memorable experiences and pushing talents for its growing community.
                 </p>
               </div>
@@ -227,14 +227,14 @@ export default function Home() {
           className="mx-auto max-w-7xl"
         >
           <div className="border-t border-white/10 py-8">
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-4 sm:gap-x-8">
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-base text-gray-400 hover:text-white transition-colors inline-flex items-center min-h-[44px] px-3"
+                  className="text-sm sm:text-base text-gray-400 hover:text-white transition-colors inline-flex items-center min-h-[44px] min-w-[44px] px-3"
                 >
                   {link.name}
                 </a>

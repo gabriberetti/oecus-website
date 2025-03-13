@@ -25,18 +25,21 @@ const BandcampEmbed = ({ release }: { release: Release }) => {
     return () => clearTimeout(timer)
   }, [])
 
+  // Adjust height based on screen size
+  const iframeHeight = typeof window !== 'undefined' && window.innerWidth < 640 ? '500px' : '600px'
+
   return (
     <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white/5 backdrop-blur-sm border border-white/10 h-full">
       {isLoading && (
-        <div className="flex items-center justify-center h-[600px] bg-black/30 absolute top-0 left-0 w-full z-10">
+        <div className="flex items-center justify-center h-[500px] sm:h-[600px] bg-black/30 absolute top-0 left-0 w-full z-10">
           <div className="animate-pulse flex flex-col items-center">
-            <div className="h-16 w-16 rounded-full border-4 border-t-white border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
-            <p className="mt-4 text-gray-400">Loading release...</p>
+            <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full border-4 border-t-white border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+            <p className="mt-4 text-sm sm:text-base text-gray-400">Loading release...</p>
           </div>
         </div>
       )}
       <iframe
-        style={{ border: 0, width: '100%', height: '600px' }}
+        style={{ border: 0, width: '100%', height: iframeHeight }}
         src={`https://bandcamp.com/EmbeddedPlayer/album=${release.id}/size=large/bgcol=181818/linkcol=ffffff/artwork=large/tracklist=true/transparent=true/`}
         seamless
         loading="lazy"
