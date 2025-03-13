@@ -14,13 +14,17 @@ interface Release {
 
 async function fetchBandcampReleases(): Promise<Release[]> {
   try {
-    const response = await fetch(BANDCAMP_URL)
+    const response = await fetch(BANDCAMP_URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    })
     const html = await response.text()
     const $ = cheerio.load(html)
     const releases: Release[] = []
 
     // Parse music grid items
-    $('.music-grid-item').each((index: number, element: any) => {
+    $('.music-grid-item').each(function(index, element) {
       const $el = $(element)
       const title = $el.find('.title').text().trim()
       const artist = $el.find('.artist-override').text().trim()
