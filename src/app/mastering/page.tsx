@@ -23,17 +23,17 @@ const features = [
 export default function MasteringPage() {
   return (
     <SharedLayout>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mx-auto max-w-3xl text-center mb-20"
+          className="mx-auto max-w-3xl text-center pt-8 sm:pt-12 pb-12 sm:pb-16"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-            Professional Mastering
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            Mastering Service
           </h1>
-          <p className="text-lg leading-8 text-gray-300">
+          <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-300">
             Take your music to the next level with our professional mastering services, tailored specifically for electronic music producers.
           </p>
         </motion.div>
@@ -42,9 +42,9 @@ export default function MasteringPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mx-auto mt-20 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none"
+          className="mx-auto mt-8 sm:mt-16 max-w-2xl lg:mt-20 lg:max-w-none"
         >
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-8 sm:gap-y-16 lg:max-w-none lg:grid-cols-3">
             {features.map((feature) => (
               <motion.div
                 key={feature.name}
@@ -67,7 +67,7 @@ export default function MasteringPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-20 flex justify-center"
+          className="mt-12 sm:mt-16 lg:mt-20 flex justify-center"
         >
           <Link
             href="mailto:mastering@oecus.com"

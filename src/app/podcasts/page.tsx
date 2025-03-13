@@ -42,24 +42,24 @@ const milestoneEpisodes = [
 export default function PodcastsPage() {
   return (
     <SharedLayout>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mx-auto max-w-3xl text-center mb-20"
+          className="mx-auto max-w-3xl text-center pt-8 sm:pt-12 pb-12 sm:pb-16"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
             Podcast Series
           </h1>
-          <p className="text-lg leading-8 text-gray-300">
+          <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-300 px-4">
             Exploring the depths of electronic music through carefully curated mixes from artists around the globe.
           </p>
         </motion.div>
 
         {/* Full Playlist */}
-        <div className="mt-20">
-          <h2 className="text-2xl font-bold tracking-tight mb-8">Full Playlist</h2>
+        <div className="mt-8 sm:mt-20">
+          <h2 className="text-2xl font-bold tracking-tight mb-6 sm:mb-8">Full Playlist</h2>
           <div className="w-full">
             <iframe 
               width="100%" 
@@ -76,7 +76,7 @@ export default function PodcastsPage() {
         </div>
 
         {/* Milestone Episodes */}
-        <div className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+        <div className="mx-auto mt-12 sm:mt-20 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           {milestoneEpisodes.map((episode) => (
             <motion.article
               key={episode.number}
