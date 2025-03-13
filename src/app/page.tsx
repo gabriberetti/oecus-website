@@ -119,7 +119,7 @@ export default function Home() {
       </div>
 
       {/* Main content */}
-      <div className="relative px-4 sm:px-6 lg:px-8">
+      <div className="relative px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
         <div className="mx-auto max-w-2xl py-12 sm:py-16 md:py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -189,7 +189,7 @@ export default function Home() {
         >
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center mb-10 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight md:text-4xl mb-4 sm:mb-6">About OECUS</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight md:text-4xl mb-4 sm:mb-6">Our Story</h2>
               <p className="text-sm sm:text-base leading-7 sm:leading-8 text-gray-300">
                 A pioneering force in underground electronic music since 2015, dedicated to discovering and promoting innovative and talented artists.
               </p>
