@@ -46,10 +46,10 @@ export default function Navigation() {
             <Image
               src="/images/OECUS Logo White.png"
               alt="OECUS Logo"
-              width={180}
-              height={60}
+              width={240}
+              height={80}
               priority
-              className="w-auto h-[60px]"
+              className="w-auto h-[80px]"
             />
           </Link>
         </div>
@@ -83,10 +83,9 @@ export default function Navigation() {
               <Image
                 src="/images/OECUS Logo White.png"
                 alt="OECUS Logo"
-                width={180}
-                height={60}
-                priority
-                className="w-auto h-[60px]"
+                width={240}
+                height={80}
+                className="w-auto h-[80px]"
               />
             </Link>
             <button
