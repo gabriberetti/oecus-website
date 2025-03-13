@@ -23,7 +23,7 @@ export default function Navigation() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center min-h-[44px] min-w-[44px]">
             <Image
-              src="/images/oecus logo black.png"
+              src="/images/OECUS Logo White.png"
               alt="OECUS Logo"
               width={120}
               height={40}
@@ -59,7 +59,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between">
             <Link href="/" className="-m-1.5 p-1.5 flex items-center min-h-[44px] min-w-[44px]" onClick={() => setMobileMenuOpen(false)}>
               <Image
-                src="/images/oecus logo black.png"
+                src="/images/OECUS Logo White.png"
                 alt="OECUS Logo"
                 width={120}
                 height={40}

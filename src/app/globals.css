@@ -7,6 +7,7 @@
   --background-rgb: 0, 0, 0;
   --primary-rgb: 255, 255, 255;
   --secondary-rgb: 107, 114, 128;
+  --font-family: var(--font-ppmori), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
   /* Apple-style spacing units */
   --spacing-xs: 0.5rem;    /* 8px */
@@ -48,6 +49,7 @@ body {
   flex-direction: column;
   line-height: 1.5;
   letter-spacing: 0.015em;
+  font-family: var(--font-family);
 }
 
 main {

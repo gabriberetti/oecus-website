@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import SharedLayout from '@/components/SharedLayout'
 
 const features = [
   {
@@ -21,16 +22,18 @@ const features = [
 
 export default function MasteringPage() {
   return (
-    <div className="min-h-screen py-32 sm:py-40">
+    <SharedLayout>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mx-auto max-w-2xl text-center"
+          className="mx-auto max-w-3xl text-center mb-20"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-8">Professional Mastering Services</h1>
-          <p className="mt-6 text-base leading-8 text-gray-300">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            Professional Mastering
+          </h1>
+          <p className="text-lg leading-8 text-gray-300">
             Take your music to the next level with our professional mastering services, tailored specifically for electronic music producers.
           </p>
         </motion.div>
@@ -51,7 +54,7 @@ export default function MasteringPage() {
                 transition={{ duration: 0.5 }}
                 className="flex flex-col"
               >
-                <dt className="text-lg font-semibold leading-7">{feature.name}</dt>
+                <dt className="text-lg font-semibold leading-7 text-white">{feature.name}</dt>
                 <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-400">
                   <p className="flex-auto">{feature.description}</p>
                 </dd>
@@ -68,12 +71,12 @@ export default function MasteringPage() {
         >
           <Link
             href="mailto:mastering@oecus.com"
-            className="rounded-md bg-white px-6 py-3 text-base font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white min-h-[44px] min-w-[44px] inline-flex items-center"
+            className="rounded-md bg-white/10 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200 min-h-[44px] min-w-[44px] inline-flex items-center"
           >
             Request Mastering
           </Link>
         </motion.div>
       </div>
-    </div>
+    </SharedLayout>
   )
 } 

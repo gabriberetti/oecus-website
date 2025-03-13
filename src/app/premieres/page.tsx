@@ -1,47 +1,72 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
+import SharedLayout from '@/components/SharedLayout'
 
 interface SubmissionFormData {
   artistName: string
-  trackTitle: string
-  releaseDate: string
   label: string
+  catalogCode: string
+  downloadLink: string
   email: string
-  message: string
+  additionalInfo?: string
 }
 
 export default function PremieresPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
+    reset
   } = useForm<SubmissionFormData>()
 
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
   const onSubmit = async (data: SubmissionFormData) => {
-    // Handle form submission here
-    console.log(data)
+    try {
+      setSubmitStatus('idle')
+      setErrorMessage('')
+
+      const response = await fetch('/api/premiere-submission', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send submission')
+      }
+
+      setSubmitStatus('success')
+      reset() // Clear form
+    } catch (error) {
+      setSubmitStatus('error')
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to send submission')
+    }
   }
 
   return (
-    <div className="min-h-screen py-32 sm:py-40">
+    <SharedLayout>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mx-auto max-w-2xl text-center"
+          className="mx-auto max-w-3xl text-center mb-20"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-8">Premieres</h1>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            Premieres
+          </h1>
           <p className="text-lg leading-8 text-gray-300">
             Showcasing the finest unreleased electronic music. Submit your track for premiere consideration.
           </p>
         </motion.div>
 
-        {/* Premiere Series */}
         <div className="mt-20">
           <h2 className="text-2xl font-bold tracking-tight mb-8">Premiere Series</h2>
           <div className="w-full rounded-lg overflow-hidden shadow-lg">
@@ -60,7 +85,6 @@ export default function PremieresPage() {
           </div>
         </div>
 
-        {/* Service Information */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -90,92 +114,170 @@ export default function PremieresPage() {
               </ul>
             </div>
 
-            {/* Submission Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
-                <label htmlFor="artistName" className="block text-base font-medium mb-2">
+                <label htmlFor="artistName" className="block text-sm font-medium text-gray-300">
                   Artist Name
                 </label>
-                <input
-                  type="text"
-                  id="artistName"
-                  {...register('artistName', { required: true })}
-                  className="min-h-[44px]"
-                />
+                <div className="mt-1">
+                  <input
+                    type="text"
+                    id="artistName"
+                    {...register('artistName', { required: 'Artist name is required' })}
+                    className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                    placeholder="Artist name"
+                  />
+                  {errors.artistName && (
+                    <p className="mt-1 text-sm text-red-400">{errors.artistName.message}</p>
+                  )}
+                </div>
               </div>
 
               <div>
-                <label htmlFor="trackTitle" className="block text-base font-medium mb-2">
-                  Track Title
-                </label>
-                <input
-                  type="text"
-                  id="trackTitle"
-                  {...register('trackTitle', { required: true })}
-                  className="min-h-[44px]"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="releaseDate" className="block text-base font-medium mb-2">
-                  Release Date
-                </label>
-                <input
-                  type="date"
-                  id="releaseDate"
-                  {...register('releaseDate', { required: true })}
-                  className="min-h-[44px]"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="label" className="block text-base font-medium mb-2">
+                <label htmlFor="label" className="block text-sm font-medium text-gray-300">
                   Label
                 </label>
-                <input
-                  type="text"
-                  id="label"
-                  {...register('label', { required: true })}
-                  className="min-h-[44px]"
-                />
+                <div className="mt-1">
+                  <input
+                    type="text"
+                    id="label"
+                    {...register('label', { required: 'Label name is required' })}
+                    className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                    placeholder="Label name"
+                  />
+                  {errors.label && (
+                    <p className="mt-1 text-sm text-red-400">{errors.label.message}</p>
+                  )}
+                </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-base font-medium mb-2">
+                <label htmlFor="catalogCode" className="block text-sm font-medium text-gray-300">
+                  Catalog Code
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="text"
+                    id="catalogCode"
+                    {...register('catalogCode', { required: 'Catalog code is required' })}
+                    className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                    placeholder="e.g., ABC123"
+                  />
+                  {errors.catalogCode && (
+                    <p className="mt-1 text-sm text-red-400">{errors.catalogCode.message}</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="downloadLink" className="block text-sm font-medium text-gray-300">
+                  Download Link
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="url"
+                    id="downloadLink"
+                    {...register('downloadLink', { 
+                      required: 'Download link is required',
+                      pattern: {
+                        value: /^https?:\/\/.+/i,
+                        message: 'Please enter a valid URL'
+                      }
+                    })}
+                    className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                    placeholder="https://..."
+                  />
+                  {errors.downloadLink && (
+                    <p className="mt-1 text-sm text-red-400">{errors.downloadLink.message}</p>
+                  )}
+                </div>
+                <p className="mt-1 text-sm text-gray-400">
+                  Please provide a permanent download link containing all assets (music, artwork, details)
+                </p>
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300">
                   Email
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  {...register('email', { required: true })}
-                  className="min-h-[44px]"
-                />
+                <div className="mt-1">
+                  <input
+                    type="email"
+                    id="email"
+                    {...register('email', { 
+                      required: 'Email is required',
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'Please enter a valid email address'
+                      }
+                    })}
+                    className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                    placeholder="you@example.com"
+                  />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
+                  )}
+                </div>
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-base font-medium mb-2">
+                <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-300">
                   Additional Information
                 </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  {...register('message')}
-                  className="min-h-[44px]"
-                />
+                <div className="mt-1">
+                  <textarea
+                    id="additionalInfo"
+                    rows={4}
+                    {...register('additionalInfo')}
+                    className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                    placeholder="Any additional information about your release"
+                  />
+                </div>
               </div>
 
               <div>
                 <button
                   type="submit"
-                  className="rounded-md bg-white px-6 py-3 text-base font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white min-h-[44px] min-w-[44px] inline-flex items-center"
+                  disabled={isSubmitting}
+                  className="w-full rounded-md bg-white px-4 py-3 text-sm font-semibold text-black shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Submit Track
+                  {isSubmitting ? 'Submitting...' : 'Submit Track'}
                 </button>
               </div>
+
+              {submitStatus === 'success' && (
+                <div className="rounded-md bg-green-500/10 p-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-green-400">Track submitted successfully!</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="rounded-md bg-red-500/10 p-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-red-400">{errorMessage || 'Failed to submit track. Please try again.'}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </form>
           </div>
         </motion.div>
       </div>
-    </div>
+    </SharedLayout>
   )
 } 

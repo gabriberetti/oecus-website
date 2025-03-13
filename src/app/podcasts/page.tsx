@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import SharedLayout from '@/components/SharedLayout'
 
 const milestoneEpisodes = [
   {
@@ -40,16 +41,18 @@ const milestoneEpisodes = [
 
 export default function PodcastsPage() {
   return (
-    <div className="min-h-screen py-32 sm:py-40">
+    <SharedLayout>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mx-auto max-w-2xl text-center"
+          className="mx-auto max-w-3xl text-center mb-20"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-8">Podcast Series</h1>
-          <p className="mt-6 text-base leading-8 text-gray-300">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            Podcast Series
+          </h1>
+          <p className="text-lg leading-8 text-gray-300">
             Exploring the depths of electronic music through carefully curated mixes from artists around the globe.
           </p>
         </motion.div>
@@ -108,6 +111,6 @@ export default function PodcastsPage() {
           ))}
         </div>
       </div>
-    </div>
+    </SharedLayout>
   )
 } 
