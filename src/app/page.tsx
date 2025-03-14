@@ -4,7 +4,11 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { RadioIcon, SparklesIcon, MusicalNoteIcon } from '@heroicons/react/24/outline'
+import { 
+  SpeakerWaveIcon,
+  BoltIcon,
+  AdjustmentsHorizontalIcon
+} from '@heroicons/react/24/outline'
 import ImageCarousel from '@/components/ImageCarousel'
 
 const socialLinks = [
@@ -40,19 +44,19 @@ const features = [
     name: 'Podcast Series',
     description: 'Weekly curated mixes featuring the finest in underground electronic music.',
     href: '/podcasts',
-    icon: RadioIcon,
+    icon: SpeakerWaveIcon,
   },
   {
     name: 'Premiere Service',
     description: 'Showcase your unreleased tracks to our dedicated audience of electronic music enthusiasts.',
     href: '/premieres',
-    icon: SparklesIcon,
+    icon: BoltIcon,
   },
   {
-    name: 'Mastering',
+    name: 'Mastering Service',
     description: 'Professional mastering services tailored specifically for electronic music producers.',
     href: '/mastering',
-    icon: MusicalNoteIcon,
+    icon: AdjustmentsHorizontalIcon,
   },
 ]
 
@@ -119,8 +123,8 @@ export default function Home() {
       </div>
 
       {/* Main content */}
-      <div className="relative px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
-        <div className="mx-auto max-w-2xl py-12 sm:py-16 md:py-24">
+      <div className="relative px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl pt-44 sm:pt-48 md:pt-52">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -138,7 +142,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mx-auto max-w-7xl pb-16 sm:pb-24"
+          className="mx-auto max-w-7xl pb-24 sm:pb-28 md:pb-32"
         >
           <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
             {features.map((feature) => (
@@ -152,9 +156,9 @@ export default function Home() {
               >
                 <Link href={feature.href} className="block h-full">
                   <div className="rounded-2xl border border-white/10 p-6 sm:p-8 backdrop-blur bg-white/5 transition-colors group-hover:bg-white/10 shadow-lg h-full flex flex-col">
-                    <div className="flex items-center gap-x-4 mb-4 sm:mb-6">
-                      <feature.icon className="h-7 w-7 sm:h-8 sm:w-8 text-white/80 flex-shrink-0" aria-hidden="true" />
-                      <h2 className="text-xl sm:text-2xl font-semibold tracking-wide">{feature.name}</h2>
+                    <div className="flex items-start gap-x-4 mb-4 sm:mb-6">
+                      <feature.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white/80 flex-shrink-0" aria-hidden="true" />
+                      <h2 className="text-lg sm:text-2xl font-semibold tracking-wide">{feature.name}</h2>
                     </div>
                     <p className="text-sm sm:text-base text-gray-400 leading-7 tracking-wide flex-grow">{feature.description}</p>
                     <div className="mt-6 sm:mt-8 flex items-center text-sm sm:text-base font-semibold text-gray-300 group-hover:text-white transition-colors">
