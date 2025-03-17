@@ -70,7 +70,7 @@ export default function MasteringPage() {
           className="mt-12 sm:mt-16 lg:mt-20 flex justify-center"
         >
           <Link
-            href="mailto:mastering@oecus.com"
+            href="mailto:oecus.info@gmail.com"
             className="rounded-md bg-white/10 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200 min-h-[44px] min-w-[44px] inline-flex items-center"
           >
             Request Mastering
