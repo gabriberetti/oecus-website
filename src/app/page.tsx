@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import ImageCarousel from '@/components/ImageCarousel'
+import Footer from '@/components/Footer'
 import dynamic from 'next/dynamic'
 
 const socialLinks = [
@@ -400,6 +401,38 @@ export default function Home() {
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const heroSectionRef = useRef<HTMLDivElement>(null)
+  
+  // Lock scroll position during initial load
+  useEffect(() => {
+    // Force scroll to top immediately
+    window.scrollTo(0, 0);
+    
+    // Lock scrolling while animation is happening
+    const lockScroll = () => {
+      window.scrollTo(0, 0);
+    };
+    
+    // Add event listener to lock scrolling
+    window.addEventListener('scroll', lockScroll);
+    
+    // Remove lock after animation completes
+    return () => {
+      window.removeEventListener('scroll', lockScroll);
+    };
+  }, []);
+  
+  // Remove scroll lock after title animation completes
+  useEffect(() => {
+    if (titleAnimationComplete) {
+      // Allow scrolling now that animation is complete
+      const lockScroll = () => {
+        window.scrollTo(0, 0);
+      };
+      
+      window.removeEventListener('scroll', lockScroll);
+    }
+  }, [titleAnimationComplete]);
   
   // Handle video loaded event
   useEffect(() => {
@@ -506,7 +539,7 @@ export default function Home() {
       {/* Main Content Container */}
       <div className="relative w-full px-3 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className="flex flex-col items-center justify-center min-h-screen pt-20 w-full" id="home">
+        <div ref={heroSectionRef} className="flex flex-col items-center justify-center min-h-screen pt-20 w-full" id="home">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -577,10 +610,7 @@ export default function Home() {
                   repeatType: "loop" 
                 }
               }}
-              className="mt-16 flex justify-center cursor-pointer min-h-[44px] min-w-[44px] items-center z-20 w-full"
-              onClick={() => {
-                document.querySelector('#podcasts')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              className="mt-16 flex justify-center min-h-[44px] min-w-[44px] items-center z-20 w-full"
             >
               <svg 
                 width="44" 
@@ -646,8 +676,7 @@ export default function Home() {
                   <motion.article
                     key={episode.number}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                     className="flex flex-col h-full bg-black/30 rounded-lg overflow-hidden border border-white/10"
                   >
@@ -1045,10 +1074,10 @@ export default function Home() {
                     className="relative h-full"
                   >
                     <ClientOnlyBandcampEmbed release={release} />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
             {visibleReleasesCount < releases.length && (
               <motion.div 

@@ -39,7 +39,8 @@ html {
   background-color: rgb(var(--background-rgb));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
+  /* Disable smooth scrolling to prevent initial auto-scroll issues */
+  scroll-behavior: auto !important;
 }
 
 body {

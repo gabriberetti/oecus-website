@@ -35,6 +35,29 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Force page to top immediately
+            if (window.location.hash) {
+              window.location.hash = '';
+            }
+            window.scrollTo(0, 0);
+            
+            // Disable existing scroll behaviors temporarily
+            const originalScrollBehavior = document.documentElement.style.scrollBehavior;
+            document.documentElement.style.scrollBehavior = 'auto';
+            
+            // Force to top again after content loads
+            document.addEventListener('DOMContentLoaded', function() {
+              window.scrollTo(0, 0);
+              
+              // Restore scroll behavior after a delay
+              setTimeout(() => {
+                document.documentElement.style.scrollBehavior = originalScrollBehavior;
+              }, 1000);
+            });
+          `
+        }} />
       </head>
       <body className={`${ppMori.className}`}>
         <Navigation />
