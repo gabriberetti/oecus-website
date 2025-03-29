@@ -64,18 +64,10 @@ const carouselImages = [
 ]
 
 const masteringFeatures = [
-  {
-    name: 'Professional Equipment',
-    description: 'State-of-the-art analog and digital tools for pristine audio quality.',
-  },
-  {
-    name: 'Genre Expertise',
-    description: 'Specialized in electronic music genres, understanding the unique requirements of each style.',
-  },
-  {
-    name: 'Quick Turnaround',
-    description: 'Fast delivery without compromising on quality, typically within 48-72 hours.',
-  },
+  "Analog & digital tools for pristine audio",
+  "Specialized in electronic music styles",
+  "48-72 hour turnaround standard",
+  "Discounts available for EPs and albums"
 ]
 
 const milestoneEpisodes = [
@@ -292,7 +284,7 @@ export default function Home() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [displayedReleases, setDisplayedReleases] = useState<Release[]>([])
-  const [visibleReleasesCount, setVisibleReleasesCount] = useState(6)
+  const [visibleReleasesCount, setVisibleReleasesCount] = useState(3)
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -330,7 +322,7 @@ export default function Home() {
   }, [])
 
   const handleLoadMore = () => {
-    setVisibleReleasesCount(prev => Math.min(prev + 6, releases.length))
+    setVisibleReleasesCount(prev => Math.min(prev + 3, releases.length))
   }
 
   const onSubmit = async (data: SubmissionFormData) => {
@@ -968,16 +960,12 @@ export default function Home() {
                   <div className="w-full md:w-3/4">
                     <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-4">Elevate Your Sound</h3>
                     <ul className="space-y-3">
-                      {masteringFeatures.map((feature) => (
-                        <li key={feature.name} className="flex items-start">
+                      {masteringFeatures.map((feature, index) => (
+                        <li key={index} className="flex items-start">
                           <span className="h-2 w-2 rounded-full bg-white flex-shrink-0 mt-2 mr-3"></span>
-                          <span><span className="font-medium text-white">{feature.name}:</span> {feature.description}</span>
+                          <span className="text-white">{feature}</span>
                         </li>
                       ))}
-                      <li className="flex items-start">
-                        <span className="h-2 w-2 rounded-full bg-white flex-shrink-0 mt-2 mr-3"></span>
-                        <span><span className="font-medium text-white">Competitive Rates:</span> Fair pricing with discounts for EPs and albums</span>
-                      </li>
                     </ul>
                   </div>
                   
