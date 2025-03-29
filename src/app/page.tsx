@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
@@ -366,6 +366,34 @@ export default function Home() {
   const [displayedReleases, setDisplayedReleases] = useState<Release[]>([])
   const [visibleReleasesCount, setVisibleReleasesCount] = useState(6)
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false)
+  const [videoLoaded, setVideoLoaded] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  
+  // Handle video loaded event
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    
+    if (videoElement) {
+      const handleCanPlay = () => {
+        setTimeout(() => {
+          setVideoLoaded(true);
+        }, 300);
+      };
+      
+      videoElement.addEventListener('canplay', handleCanPlay);
+      
+      // If video is already loaded when this effect runs
+      if (videoElement.readyState >= 3) {
+        setTimeout(() => {
+          setVideoLoaded(true);
+        }, 300);
+      }
+      
+      return () => {
+        videoElement.removeEventListener('canplay', handleCanPlay);
+      };
+    }
+  }, []);
   
   // Initialize with releases on component mount
   React.useEffect(() => {
@@ -404,19 +432,28 @@ export default function Home() {
   return (
     <div className="relative isolate">
       {/* Video Background */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute h-full w-full object-cover"
-          style={{ position: 'fixed' }}
+      <div className="fixed inset-0 -z-10 overflow-hidden bg-black">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: videoLoaded ? 1 : 0 }}
+          transition={{ duration: 1.2 }}
+          className="w-full h-full"
         >
-          <source src="/videoback.mp4" type="video/mp4" />
-          <source src="/videoback.mp4" type="video/quicktime" />
-        </video>
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            controls={false}
+            preload="auto"
+            className="absolute h-full w-full object-cover"
+            style={{ position: 'fixed' }}
+          >
+            <source src="/videoback.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       </div>
 
