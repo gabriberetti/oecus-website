@@ -70,7 +70,6 @@ export default function PremieresPage() {
         </motion.div>
 
         <div className="mt-8 sm:mt-16">
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-4 sm:mb-8">Premiere Series</h2>
           <div className="w-full rounded-lg overflow-hidden shadow-lg">
             <iframe
               width="100%"
@@ -78,8 +77,8 @@ export default function PremieresPage() {
               scrolling="no"
               frameBorder="no"
               allow="autoplay"
-              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1128431950&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-              className="hover:opacity-95 transition-opacity"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1128431950&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+              className="hover:opacity-95 transition-opacity sm:h-[450px] h-[300px]"
             ></iframe>
             <div className="text-base text-gray-400 mt-3 font-light" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
               <a href="https://soundcloud.com/oecusmusic" title="OECUS" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 min-h-[44px] min-w-[44px] inline-flex items-center px-3">OECUS</a> · <a href="https://soundcloud.com/oecusmusic/sets/premiere-series" title="Premiere Series" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 min-h-[44px] min-w-[44px] inline-flex items-center px-3">Premiere Series</a>

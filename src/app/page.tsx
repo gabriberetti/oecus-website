@@ -353,39 +353,6 @@ const buttonClasses = "rounded-md bg-white px-6 py-3 text-base font-semibold tex
 // Common section class for styling and hover effects
 const sectionClasses = "mx-auto max-w-7xl py-16 sm:py-24 bg-black/80 backdrop-blur-sm rounded-2xl border border-white/10 mb-16 sm:mb-24 relative overflow-hidden transition-all duration-300 group hover:bg-black/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.1)]";
 
-/* Define a reusable minimal SoundCloud player for embeds */
-function MinimalSoundCloudPlayer({ url, height = 166 }: { url: string, height?: number }) {
-  const minimalParams = "&color=%23111111&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false";
-  const fullParams = "&color=%23111111&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true";
-  
-  return (
-    <>
-      {/* Mobile minimal version */}
-      <div className="sm:hidden">
-        <iframe
-          width="100%"
-          height={height}
-          scrolling="no"
-          frameBorder="no"
-          allow="autoplay"
-          src={`${url}${minimalParams}`}
-        ></iframe>
-      </div>
-      {/* Desktop full version */}
-      <div className="hidden sm:block">
-        <iframe
-          width="100%"
-          height={height}
-          scrolling="no"
-          frameBorder="no"
-          allow="autoplay"
-          src={`${url}${fullParams}`}
-        ></iframe>
-      </div>
-    </>
-  );
-}
-
 export default function Home() {
   const {
     register,
@@ -401,38 +368,6 @@ export default function Home() {
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const heroSectionRef = useRef<HTMLDivElement>(null)
-  
-  // Lock scroll position during initial load
-  useEffect(() => {
-    // Force scroll to top immediately
-    window.scrollTo(0, 0);
-    
-    // Lock scrolling while animation is happening
-    const lockScroll = () => {
-      window.scrollTo(0, 0);
-    };
-    
-    // Add event listener to lock scrolling
-    window.addEventListener('scroll', lockScroll);
-    
-    // Remove lock after animation completes
-    return () => {
-      window.removeEventListener('scroll', lockScroll);
-    };
-  }, []);
-  
-  // Remove scroll lock after title animation completes
-  useEffect(() => {
-    if (titleAnimationComplete) {
-      // Allow scrolling now that animation is complete
-      const lockScroll = () => {
-        window.scrollTo(0, 0);
-      };
-      
-      window.removeEventListener('scroll', lockScroll);
-    }
-  }, [titleAnimationComplete]);
   
   // Handle video loaded event
   useEffect(() => {
@@ -539,7 +474,7 @@ export default function Home() {
       {/* Main Content Container */}
       <div className="relative w-full px-3 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div ref={heroSectionRef} className="flex flex-col items-center justify-center min-h-screen pt-20 w-full" id="home">
+        <div className="flex flex-col items-center justify-center min-h-screen pt-20 w-full" id="home">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -610,7 +545,10 @@ export default function Home() {
                   repeatType: "loop" 
                 }
               }}
-              className="mt-16 flex justify-center min-h-[44px] min-w-[44px] items-center z-20 w-full"
+              className="mt-16 flex justify-center cursor-pointer min-h-[44px] min-w-[44px] items-center z-20 w-full"
+              onClick={() => {
+                document.querySelector('#podcasts')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               <svg 
                 width="44" 
@@ -662,38 +600,48 @@ export default function Home() {
             {/* Full Playlist */}
             <div className="mt-6 sm:mt-16 max-w-5xl mx-auto">
               <div className="w-full">
-                <MinimalSoundCloudPlayer 
-                  url="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/358065966" 
-                  height={450} 
-                />
+                <iframe 
+                  width="100%" 
+                  height="450" 
+                  scrolling="no" 
+                  frameBorder="no" 
+                  allow="autoplay" 
+                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/358065966&color=%23111111&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+                ></iframe>
               </div>
             </div>
 
-            {/* Milestone Episodes - Hidden on mobile */}
-            <div className="hidden sm:block">
-              <div className="mx-auto mt-10 sm:mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
-                {milestoneEpisodes.map((episode) => (
-                  <motion.article
-                    key={episode.number}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="flex flex-col h-full bg-black/30 rounded-lg overflow-hidden border border-white/10"
-                  >
-                    <div className="p-6 pb-4 flex flex-col h-full">
-                      <h3 className="text-xl font-semibold leading-6 text-white">
-                        {episode.title}
-                      </h3>
-                      <p className="mt-2 text-base leading-6 text-gray-200 mb-4 flex-grow">
-                        {episode.description}
-                      </p>
-                      <div className="w-full rounded-md overflow-hidden">
-                        <MinimalSoundCloudPlayer url={episode.embedUrl.replace("%23ff5500", "%23111111")} />
-                      </div>
+            {/* Milestone Episodes */}
+            <div className="mx-auto mt-10 sm:mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2 hidden sm:grid">
+              {milestoneEpisodes.map((episode) => (
+                <motion.article
+                  key={episode.number}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                  className="flex flex-col h-full bg-black/30 rounded-lg overflow-hidden border border-white/10"
+                >
+                  <div className="p-6 pb-4 flex flex-col h-full">
+                    <h3 className="text-xl font-semibold leading-6 text-white">
+                      {episode.title}
+                    </h3>
+                    <p className="mt-2 text-base leading-6 text-gray-200 mb-4 flex-grow">
+                      {episode.description}
+                    </p>
+                    <div className="w-full rounded-md overflow-hidden">
+                      <iframe
+                        width="100%"
+                        height="166"
+                        scrolling="no"
+                        frameBorder="no"
+                        allow="autoplay"
+                        src={episode.embedUrl.replace("%23ff5500", "%23111111")}
+                      ></iframe>
                     </div>
-                  </motion.article>
-                ))}
-              </div>
+                  </div>
+                </motion.article>
+              ))}
             </div>
           </div>
         </div>
@@ -726,10 +674,15 @@ export default function Home() {
 
             <div className="mt-6 sm:mt-14 max-w-5xl mx-auto">
               <div className="w-full rounded-lg overflow-hidden shadow-lg">
-                <MinimalSoundCloudPlayer 
-                  url="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1128431950" 
-                  height={450} 
-                />
+                <iframe
+                  width="100%"
+                  height="450"
+                  scrolling="no"
+                  frameBorder="no"
+                  allow="autoplay"
+                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1128431950&color=%23111111&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+                  className="hover:opacity-95 transition-opacity"
+                ></iframe>
               </div>
               
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mt-10 mb-8 text-center">Submit Your Track</h2>
@@ -739,7 +692,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mx-auto max-w-full px-1 sm:px-4 lg:px-8"
+              className="mt-0 sm:mt-6 mx-auto max-w-5xl"
             >
               <div className="prose prose-invert max-w-none">
                 <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-200 mb-10 sm:mb-14 text-center max-w-3xl mx-auto">
@@ -1048,26 +1001,10 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mx-auto max-w-full px-1 sm:px-4 lg:px-8"
             >
-              {/* Mobile view: Display only 3 releases */}
-              <div className="sm:hidden grid grid-cols-1 gap-4">
-                {displayedReleases.slice(0, Math.min(3, visibleReleasesCount)).map((release, index) => (
-                  <motion.div
-                    key={`mobile-${release.id}-${release.title}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
-                    className="relative h-full"
-                  >
-                    <ClientOnlyBandcampEmbed release={release} />
-                  </motion.div>
-                ))}
-              </div>
-              
-              {/* Desktop view: Display all releases */}
-              <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 {displayedReleases.slice(0, visibleReleasesCount).map((release, index) => (
                   <motion.div
-                    key={`desktop-${release.id}-${release.title}`}
+                    key={release.id + release.title}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
@@ -1151,9 +1088,9 @@ export default function Home() {
               </div>
 
                 <div className="bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10 shadow-lg">
-                  <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-4">Events</h2>
+                  <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-4">Events & Community</h2>
                   <p className="text-base leading-7 sm:leading-8 text-gray-200">
-                    For more than 10 years, OECUS has been hosting its own events in various clubs locally and internationally, continuing to create memorable experiences and pushing talents in the electromic music community.
+                    For more than 10 years, OECUS has been hosting its own events in various clubs locally and internationally, continuing to create memorable experiences and pushing talents for its growing community.
                 </p>
               </div>
               </motion.div>

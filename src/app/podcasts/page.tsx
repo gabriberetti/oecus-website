@@ -59,7 +59,6 @@ export default function PodcastsPage() {
 
         {/* Full Playlist */}
         <div className="mt-8 sm:mt-20">
-          <h2 className="text-2xl font-bold tracking-tight mb-6 sm:mb-8">Full Playlist</h2>
           <div className="w-full">
             <iframe 
               width="100%" 
@@ -67,7 +66,8 @@ export default function PodcastsPage() {
               scrolling="no" 
               frameBorder="no" 
               allow="autoplay" 
-              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/358065966&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/358065966&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+              className="sm:h-[450px] h-[300px]"
             ></iframe>
             <div className="text-base text-gray-400 mt-2 font-light" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
               <a href="https://soundcloud.com/oecusmusic" title="OECUS" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 min-h-[44px] min-w-[44px] inline-flex items-center px-3">OECUS</a> · <a href="https://soundcloud.com/oecusmusic/sets/podcast-series" title="Podcast Series" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 min-h-[44px] min-w-[44px] inline-flex items-center px-3">Podcast Series</a>
@@ -76,7 +76,7 @@ export default function PodcastsPage() {
         </div>
 
         {/* Milestone Episodes */}
-        <div className="mx-auto mt-12 sm:mt-20 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+        <div className="mx-auto mt-12 sm:mt-20 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2 hidden sm:grid">
           {milestoneEpisodes.map((episode) => (
             <motion.article
               key={episode.number}
