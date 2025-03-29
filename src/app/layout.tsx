@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import Navigation from '@/components/Navigation'
@@ -9,11 +9,18 @@ const ppMori = localFont({
   display: 'swap',
 })
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  themeColor: '#000000',
+}
+
 export const metadata: Metadata = {
   title: 'OECUS | Electronic Music Collective & Record Label',
   description: 'OECUS is an innovative electronic music collective and record label based in Berlin, specializing in techno, ambient and experimental electronic music. Explore our releases, podcasts, mastering services and premieres.',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover',
-  themeColor: '#000000',
+  metadataBase: new URL('https://oecus.com'),
   keywords: 'OECUS, electronic music, techno, music collective, record label, podcasts, music premieres, audio mastering, underground music',
   openGraph: {
     title: 'OECUS | Electronic Music Collective & Record Label',
