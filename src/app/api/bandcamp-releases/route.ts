@@ -45,7 +45,6 @@ async function fetchBandcampReleases(): Promise<Release[]> {
 
     return releases
   } catch (error) {
-    console.error('Error fetching Bandcamp releases:', error)
     return []
   }
 }
@@ -57,7 +56,6 @@ export async function GET() {
     
     return NextResponse.json({ releases })
   } catch (error) {
-    console.error('Error in Bandcamp releases API:', error)
     return NextResponse.json({ releases: [] }, { status: 500 })
   }
 } 

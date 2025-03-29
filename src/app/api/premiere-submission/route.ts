@@ -36,7 +36,6 @@ ${additionalInfo ? `Notes: ${additionalInfo}` : ''}
     return NextResponse.json({ message: 'Submission sent successfully' })
 
   } catch (error) {
-    console.error('Error:', error)
     return NextResponse.json(
       { error: 'Failed to send submission' },
       { status: 500 }

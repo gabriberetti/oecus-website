@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import ImageCarousel from '@/components/ImageCarousel'
-import Footer from '@/components/Footer'
 import dynamic from 'next/dynamic'
 
 const socialLinks = [
