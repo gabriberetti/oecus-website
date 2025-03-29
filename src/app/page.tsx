@@ -494,15 +494,15 @@ export default function Home() {
           </div>
           
           <div className="px-3 sm:px-6 lg:px-8 relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="mx-auto max-w-3xl text-center pt-0 pb-6 sm:pb-8"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
-                Podcast Series
-              </h2>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
+                Podcasts
+              </h1>
               <p className="text-base leading-6 text-gray-200 max-w-2xl mx-auto">
                 Exploring the depths of electronic music through carefully curated mixes from artists around the globe.
               </p>
@@ -646,9 +646,9 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="mx-auto max-w-3xl text-center pt-0 pb-6 sm:pb-8"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
                 Premieres
-              </h2>
+              </h1>
               <p className="text-base leading-6 text-gray-200 max-w-2xl mx-auto">
                 Showcasing the finest unreleased electronic music. Submit your track for premiere consideration.
               </p>
@@ -940,9 +940,9 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="mx-auto max-w-3xl text-center pt-4 sm:pt-6 pb-6 sm:pb-8"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
                 Mastering
-              </h2>
+              </h1>
               <p className="text-base leading-6 text-gray-200 max-w-2xl mx-auto">
                 Professional audio mastering tailored for electronic music production
               </p>
@@ -1013,9 +1013,9 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="mx-auto max-w-3xl text-center pt-4 sm:pt-6 pb-6 sm:pb-8"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
                 Releases
-              </h2>
+              </h1>
               <p className="text-base leading-6 text-gray-200 max-w-2xl mx-auto">
                 Our curated collection of electronic music releases, showcasing emerging and established artists.
               </p>
@@ -1076,11 +1076,11 @@ export default function Home() {
           
           <div className="px-3 sm:px-6 lg:px-8 relative w-full">
             <div className="mx-auto max-w-3xl text-center mb-6 sm:mb-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
                 About
-              </h2>
+              </h1>
               <p className="text-base leading-6 text-gray-200 max-w-2xl mx-auto">
-                A pioneering force in underground electronic music since 2015, dedicated to discovering and promoting innovative and talented artists.
+                A pioneering force in underground electronic music since 2015, based in Berlin, dedicated to discovering and promoting innovative and talented artists.
               </p>
               <div className="w-16 h-0.5 bg-white/50 mx-auto mt-3"></div>
             </div>
@@ -1099,7 +1099,7 @@ export default function Home() {
                 <div className="bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10 shadow-lg">
                   <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-4">Our Story</h2>
                   <p className="text-base leading-7 sm:leading-8 text-gray-200">
-                    Founded in 2015, OECUS began as a collective, quickly establishing itself as a significant force in the underground electronic music scene. Known for its innovative approach to music, the collective gained recognition through its successful podcasts, releases, and events.
+                    Founded in 2015 in Berlin, OECUS began as a collective, quickly establishing itself as a significant force in the underground electronic music scene. Known for its innovative approach to music, the collective gained recognition through its successful podcasts, releases, and events.
                   </p>
                 </div>
 
@@ -1113,9 +1113,9 @@ export default function Home() {
                 <div className="bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10 shadow-lg">
                   <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-4">Events & Community</h2>
                   <p className="text-base leading-7 sm:leading-8 text-gray-200">
-                    For more than 10 years, OECUS has been hosting its own events in various clubs locally and internationally, continuing to create memorable experiences and pushing talents for its growing community.
-                </p>
-              </div>
+                    For more than 10 years, OECUS has been hosting its own events in various clubs across Berlin and internationally, continuing to create memorable experiences and pushing talents for its growing community.
+                  </p>
+                </div>
               </motion.div>
 
               {/* Contact Section */}
@@ -1166,6 +1166,75 @@ export default function Home() {
             </div>
           </div>
         </motion.footer>
+
+        {/* FAQ Section - Hidden visually but available for search engines and voice search */}
+        <div className="sr-only">
+          <h2>Frequently Asked Questions</h2>
+          <div itemScope itemType="https://schema.org/FAQPage">
+            <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+              <h3 itemProp="name">What is OECUS?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <div itemProp="text">
+                  OECUS is an electronic music collective and record label specializing in techno, ambient, and experimental electronic music. Founded in 2015, OECUS provides a platform for artists through releases, podcasts, events, and mastering services.
+                </div>
+              </div>
+            </div>
+            
+            <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+              <h3 itemProp="name">How can I submit my music to OECUS?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <div itemProp="text">
+                  You can submit your track through our website's submission form in the Premieres section. We require your artist name, label, catalog code, download link, and email. We'll review your music and contact you if it's selected for a premiere.
+                </div>
+              </div>
+            </div>
+            
+            <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+              <h3 itemProp="name">What mastering services does OECUS offer?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <div itemProp="text">
+                  OECUS provides professional audio mastering tailored for electronic music, using analog and digital tools for pristine audio. We specialize in electronic music styles with a standard 48-72 hour turnaround time. Discounts are available for EPs and albums.
+                </div>
+              </div>
+            </div>
+            
+            <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+              <h3 itemProp="name">How can I contact OECUS?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <div itemProp="text">
+                  You can contact OECUS via email at oecus.info@gmail.com for inquiries, collaborations, or more information about our services.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Podcast Episodes Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "itemListElement": milestoneEpisodes.map((episode, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "item": {
+                  "@type": "PodcastEpisode",
+                  "url": episode.linkUrl,
+                  "name": episode.title,
+                  "description": episode.description,
+                  "episodeNumber": episode.number,
+                  "partOfSeries": {
+                    "@type": "PodcastSeries",
+                    "name": "OECUS Podcast Series",
+                    "url": "https://soundcloud.com/oecusmusic"
+                  }
+                }
+              }))
+            })
+          }}
+        />
       </div>
     </div>
   )
