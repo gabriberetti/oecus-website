@@ -73,7 +73,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="google-site-verification" content="verification_token_to_be_replaced" />
+        <meta name="google-site-verification" content="BQ2JK9e4CWSLuN9PPdE6HsXh6pwhY4z3lH2rnb5IL08" />
         {/* Schema.org structured data for Organization */}
         <script
           type="application/ld+json"
