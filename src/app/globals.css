@@ -158,4 +158,57 @@ main {
 .image-container {
   @apply relative overflow-hidden;
   aspect-ratio: attr(data-aspect-ratio);
+}
+
+/* Media queries and mobile-specific styles */
+/* The milestone podcast section uses "hidden sm:grid" classes to hide it on mobile devices */
+
+/* Custom clip path for the background gradient */
+.clip-path-polygon-custom {
+  clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);
+}
+
+/* Light move animation */
+.light-move-animation {
+  transform: translateX(-100%);
+  animation: lightMove 3s ease-in-out infinite alternate;
+}
+
+@keyframes lightMove {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Text animation effects */
+@keyframes textFlash {
+  0%, 100% {
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 12px rgba(255, 255, 255, 0.2);
+  }
+}
+
+h1 > div > div {
+  animation: textFlash 7s ease-in-out 3s infinite alternate;
+}
+
+.letter-spacing-1 {
+  animation: textFlash 7s ease-in-out 4.2s infinite alternate;
+}
+
+/* Mobile support */
+@media (max-width: 640px) {
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  html, body {
+    max-width: 100vw;
+  }
 } 

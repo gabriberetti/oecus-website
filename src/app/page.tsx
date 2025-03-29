@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import ImageCarousel from '@/components/ImageCarousel'
 import dynamic from 'next/dynamic'
+import SlotMachineText from '@/components/SlotMachineText'
 
 const socialLinks = [
   {
@@ -255,7 +256,7 @@ const BandcampEmbed = ({ release }: { release: Release }) => {
   return (
     <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white/5 backdrop-blur-sm border border-white/10 h-full">
       <iframe
-        style={{ border: 0, width: '100%', height: '600px' }}
+        className="border-0 w-full h-[600px]"
         src={`https://bandcamp.com/EmbeddedPlayer/album=${release.id}/size=large/bgcol=181818/linkcol=ffffff/artwork=large/tracklist=true/transparent=true/`}
         seamless
         loading="lazy"
@@ -273,78 +274,6 @@ const BandcampEmbed = ({ release }: { release: Release }) => {
 const ClientOnlyBandcampEmbed = dynamic(() => Promise.resolve(BandcampEmbed), {
   ssr: false,
 })
-
-// Add this helper function before the Home component
-const SlotMachineText = ({ text, onComplete }: { text: string, onComplete?: () => void }) => {
-  const [displayedText, setDisplayedText] = useState(Array(text.length).fill(" "));
-  const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const [animationComplete, setAnimationComplete] = useState(false);
-  
-  useEffect(() => {
-    if (animationComplete) return;
-    
-    // Calculate the total animation duration
-    const lastLetterIndex = text.length - 1;
-    const lastLetterCycles = 10 + lastLetterIndex * 3;
-    const totalAnimationDuration = 400 + lastLetterIndex * 120 + (lastLetterCycles * 50);
-    
-    // For each letter, cycle through random letters before settling on the final one
-    text.split('').forEach((targetLetter, index) => {
-      // How many random letters to cycle through
-      const cycles = 10 + index * 3;
-      
-      // Initial delay to ensure all letters are visible before animation starts
-      setTimeout(() => {
-        // Change each letter multiple times before settling on the final
-        for (let i = 0; i < cycles; i++) {
-          setTimeout(() => {
-            setDisplayedText(prev => {
-              const newText = [...prev];
-              // If it's the last cycle, use the target letter, otherwise use a random one
-              if (i === cycles - 1) {
-                newText[index] = targetLetter;
-              } else {
-                newText[index] = alphabets[Math.floor(Math.random() * alphabets.length)];
-              }
-              return newText;
-            });
-          }, 50 * i);
-        }
-      }, 300 + index * 120);
-    });
-    
-    // Call onComplete after the animation finishes
-    if (onComplete) {
-      setTimeout(() => {
-        setAnimationComplete(true);
-        onComplete();
-      }, totalAnimationDuration + 200); // Add a bit of extra time to ensure all animations are done
-    }
-  }, [text, onComplete, animationComplete]);
-  
-  return (
-    <div className="grid grid-cols-5 w-full max-w-[100%]" style={{ 
-      gap: "0.15em"
-    }}>
-      {Array.from({ length: text.length }).map((_, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.1,
-            duration: 0.5,
-            type: "spring",
-            stiffness: 100
-          }}
-          className="flex items-center justify-center"
-        >
-          {displayedText[idx]}
-        </motion.div>
-      ))}
-    </div>
-  );
-};
 
 // Common button class - define once and reuse
 const buttonClasses = "rounded-md bg-white px-6 py-3 text-base font-semibold text-black shadow-sm hover:bg-opacity-80 hover:text-black focus:outline-none focus:ring-2 focus:ring-white min-h-[44px] min-w-[44px] inline-flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
@@ -439,17 +368,16 @@ export default function Home() {
           className="w-full h-full"
         >
         <video
-            ref={videoRef}
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-            controls={false}
+          controls={false}
           preload="auto"
-          className="absolute h-full w-full object-cover"
-          style={{ position: 'fixed' }}
+          className="absolute h-full w-full object-cover fixed"
         >
-            <source src="/videoback.mp4" type="video/mp4" />
+          <source src="/videoback.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         </motion.div>
@@ -462,11 +390,7 @@ export default function Home() {
         aria-hidden="true"
       >
         <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#1a1a1a] to-[#333333] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
+          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#1a1a1a] to-[#333333] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem] clip-path-polygon-custom"
         />
       </div>
 
@@ -573,11 +497,7 @@ export default function Home() {
         {/* Podcasts Section */}
         <div className={sectionClasses} id="podcasts">
           {/* Moving light effect */}
-          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out" 
-               style={{ 
-                 transform: 'translateX(-100%)', 
-                 animation: 'lightMove 3s ease-in-out infinite alternate',
-               }}>
+          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out light-move-animation">
           </div>
           
           <div className="px-3 sm:px-6 lg:px-8 relative">
@@ -648,11 +568,7 @@ export default function Home() {
         {/* Premieres Section */}
         <div className={sectionClasses} id="premieres">
           {/* Moving light effect */}
-          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out" 
-               style={{ 
-                 transform: 'translateX(-100%)', 
-                 animation: 'lightMove 3s ease-in-out infinite alternate',
-               }}>
+          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out light-move-animation">
           </div>
           
           <div className="px-3 sm:px-6 lg:px-8 relative w-full">
@@ -890,11 +806,7 @@ export default function Home() {
         {/* Mastering Section */}
         <div className={sectionClasses} id="mastering">
           {/* Moving light effect */}
-          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out" 
-               style={{ 
-                 transform: 'translateX(-100%)', 
-                 animation: 'lightMove 3s ease-in-out infinite alternate',
-               }}>
+          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out light-move-animation">
           </div>
           
           <div className="px-3 sm:px-6 lg:px-8 relative">
@@ -971,11 +883,7 @@ export default function Home() {
         {/* Releases Section */}
         <div className={sectionClasses} id="releases">
           {/* Moving light effect */}
-          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out" 
-               style={{ 
-                 transform: 'translateX(-100%)', 
-                 animation: 'lightMove 3s ease-in-out infinite alternate',
-               }}>
+          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out light-move-animation">
           </div>
           
           <div className="px-3 sm:px-6 lg:px-8 relative">
@@ -1043,11 +951,7 @@ export default function Home() {
           id="about"
         >
           {/* Moving light effect */}
-          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out" 
-               style={{ 
-                 transform: 'translateX(-100%)', 
-                 animation: 'lightMove 3s ease-in-out infinite alternate',
-               }}>
+          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-1000 ease-in-out light-move-animation">
           </div>
           
           <div className="px-3 sm:px-6 lg:px-8 relative w-full">
@@ -1141,47 +1045,6 @@ export default function Home() {
           </div>
         </motion.footer>
       </div>
-      
-      {/* Add CSS animation for the light effect */}
-      <style jsx global>{`
-        @keyframes lightMove {
-          0% {
-            transform: translateX(-100%) rotate(10deg);
-          }
-          100% {
-            transform: translateX(100%) rotate(-10deg);
-          }
-        }
-        
-        @keyframes textFlash {
-          0%, 100% {
-            text-shadow: 0 0 0 rgba(255, 255, 255, 0);
-          }
-          50% {
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 12px rgba(255, 255, 255, 0.2);
-          }
-        }
-        
-        h1 > div > div {
-          animation: textFlash 7s ease-in-out 3s infinite alternate;
-        }
-        
-        .letter-spacing-1 {
-          animation: textFlash 7s ease-in-out 4.2s infinite alternate;
-        }
-        
-        /* Add better mobile support */
-        @media (max-width: 640px) {
-          body {
-            overflow-x: hidden;
-            width: 100%;
-          }
-          
-          html, body {
-            max-width: 100vw;
-          }
-        }
-      `}</style>
     </div>
   )
 } 
