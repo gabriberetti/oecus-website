@@ -10,8 +10,10 @@ const ppMori = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'OECUS',
-  description: 'OECUS - Music Collective, Podcast Series, and Mastering Services',
+  title: 'OECUS | Electronic Music Collective',
+  description: 'OECUS is an electronic music collective based in the UK.',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover',
+  themeColor: '#000000',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -31,6 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+      </head>
       <body className={`${ppMori.className}`}>
         <Navigation />
         <main>

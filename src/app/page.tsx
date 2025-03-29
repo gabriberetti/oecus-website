@@ -280,20 +280,14 @@ const SlotMachineText = ({ text, onComplete }: { text: string, onComplete?: () =
   const [displayedText, setDisplayedText] = useState(Array(text.length).fill(" "));
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const [animationComplete, setAnimationComplete] = useState(false);
-  const animationStartedRef = useRef(false);
   
   useEffect(() => {
-    if (animationComplete || animationStartedRef.current) return;
-    
-    // Mark that animation has started to prevent duplicate runs
-    animationStartedRef.current = true;
+    if (animationComplete) return;
     
     // Calculate the total animation duration
     const lastLetterIndex = text.length - 1;
     const lastLetterCycles = 10 + lastLetterIndex * 3;
     const totalAnimationDuration = 400 + lastLetterIndex * 120 + (lastLetterCycles * 50);
-    
-    const timeouts: number[] = [];
     
     // For each letter, cycle through random letters before settling on the final one
     text.split('').forEach((targetLetter, index) => {
@@ -301,10 +295,10 @@ const SlotMachineText = ({ text, onComplete }: { text: string, onComplete?: () =
       const cycles = 10 + index * 3;
       
       // Initial delay to ensure all letters are visible before animation starts
-      const outerTimeoutId = window.setTimeout(() => {
+      setTimeout(() => {
         // Change each letter multiple times before settling on the final
         for (let i = 0; i < cycles; i++) {
-          const innerTimeoutId = window.setTimeout(() => {
+          setTimeout(() => {
             setDisplayedText(prev => {
               const newText = [...prev];
               // If it's the last cycle, use the target letter, otherwise use a random one
@@ -316,28 +310,17 @@ const SlotMachineText = ({ text, onComplete }: { text: string, onComplete?: () =
               return newText;
             });
           }, 50 * i);
-          timeouts.push(innerTimeoutId);
         }
       }, 300 + index * 120);
-      
-      timeouts.push(outerTimeoutId);
     });
     
     // Call onComplete after the animation finishes
-    let completeTimeoutId: number | null = null;
     if (onComplete) {
-      completeTimeoutId = window.setTimeout(() => {
+      setTimeout(() => {
         setAnimationComplete(true);
         onComplete();
       }, totalAnimationDuration + 200); // Add a bit of extra time to ensure all animations are done
-      
-      if (completeTimeoutId) timeouts.push(completeTimeoutId);
     }
-    
-    // Clean up all timeouts when component unmounts or dependencies change
-    return () => {
-      timeouts.forEach(id => window.clearTimeout(id));
-    };
   }, [text, onComplete, animationComplete]);
   
   return (
@@ -447,7 +430,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative isolate">
+    <div className="relative isolate w-full overflow-hidden">
       {/* Video Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden bg-black">
         <motion.div
@@ -456,20 +439,20 @@ export default function Home() {
           transition={{ duration: 1.2 }}
           className="w-full h-full"
         >
-          <video
+        <video
             ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
+          autoPlay
+          loop
+          muted
+          playsInline
             controls={false}
-            preload="auto"
-            className="absolute h-full w-full object-cover"
-            style={{ position: 'fixed' }}
-          >
+          preload="auto"
+          className="absolute h-full w-full object-cover"
+          style={{ position: 'fixed' }}
+        >
             <source src="/videoback.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          Your browser does not support the video tag.
+        </video>
         </motion.div>
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       </div>
@@ -489,7 +472,7 @@ export default function Home() {
       </div>
 
       {/* Main Content Container */}
-      <div className="relative px-4 sm:px-6 lg:px-8">
+      <div className="relative w-full px-3 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="flex flex-col items-center justify-center min-h-screen pt-20 w-full" id="home">
           <motion.div
@@ -533,7 +516,7 @@ export default function Home() {
               <div className="w-full h-full rounded-full border-4 border-white/20"></div>
             </motion.div>
             
-            <h1 className="text-[10rem] sm:text-[14rem] font-bold text-white tracking-[0.1em] relative z-10 mt-12 w-full mx-auto">
+            <h1 className="text-7xl xs:text-8xl sm:text-[10rem] md:text-[14rem] font-bold text-white tracking-[0.08em] xs:tracking-[0.1em] relative z-10 mt-12 w-full mx-auto">
               <SlotMachineText 
                 text="OECUS" 
                 onComplete={() => setTitleAnimationComplete(true)}
@@ -544,7 +527,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: titleAnimationComplete ? 1 : 0 }}
               transition={{ duration: 1 }}
-              className="mt-8 text-xl sm:text-2xl text-white font-light tracking-widest uppercase relative z-10 letter-spacing-1"
+              className="mt-4 sm:mt-8 text-base xs:text-lg sm:text-xl md:text-2xl text-white font-light tracking-widest uppercase relative z-10 letter-spacing-1"
             >
               ELECTRONIC MUSIC COLLECTIVE
             </motion.p>
@@ -598,7 +581,7 @@ export default function Home() {
                }}>
           </div>
           
-          <div className="px-4 sm:px-6 lg:px-8 relative">
+          <div className="px-3 sm:px-6 lg:px-8 relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -674,7 +657,7 @@ export default function Home() {
                }}>
           </div>
           
-          <div className="px-4 sm:px-6 lg:px-8 relative w-full">
+          <div className="px-3 sm:px-6 lg:px-8 relative w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -917,7 +900,7 @@ export default function Home() {
                }}>
           </div>
           
-          <div className="px-4 sm:px-6 lg:px-8 relative">
+          <div className="px-3 sm:px-6 lg:px-8 relative">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -998,7 +981,7 @@ export default function Home() {
                }}>
           </div>
           
-          <div className="px-4 sm:px-6 lg:px-8 relative">
+          <div className="px-3 sm:px-6 lg:px-8 relative">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1018,7 +1001,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mx-auto max-w-full px-4 sm:px-6 lg:px-8"
+              className="mx-auto max-w-full px-1 sm:px-4 lg:px-8"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 {displayedReleases.slice(0, visibleReleasesCount).map((release, index) => (
@@ -1070,7 +1053,7 @@ export default function Home() {
                }}>
           </div>
           
-          <div className="px-4 sm:px-6 lg:px-8 relative w-full">
+          <div className="px-3 sm:px-6 lg:px-8 relative w-full">
             <div className="mx-auto max-w-3xl text-center mb-6 sm:mb-8">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
                 About
@@ -1139,7 +1122,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mx-auto max-w-7xl mb-8 sm:mb-12"
+          className="mx-auto max-w-7xl mb-8 sm:mb-12 px-3 sm:px-4"
         >
           <div className="border-t border-white/10 py-8">
             <div className="flex items-center justify-center gap-x-4 sm:gap-x-6 flex-wrap">
@@ -1188,6 +1171,18 @@ export default function Home() {
         
         .letter-spacing-1 {
           animation: textFlash 7s ease-in-out 4.2s infinite alternate;
+        }
+        
+        /* Add better mobile support */
+        @media (max-width: 640px) {
+          body {
+            overflow-x: hidden;
+            width: 100%;
+          }
+          
+          html, body {
+            max-width: 100vw;
+          }
         }
       `}</style>
     </div>
