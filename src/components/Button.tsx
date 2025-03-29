@@ -22,12 +22,12 @@ export default function Button({
   disabled = false,
   external = false
 }: ButtonProps) {
-  const baseStyles = "rounded-md px-6 py-3 text-base font-semibold shadow-sm transition-all duration-200 min-h-[44px] min-w-[44px] inline-flex items-center justify-center"
+  const baseStyles = "rounded-md px-6 py-3 text-base font-semibold shadow-sm transition-all duration-200 min-h-[44px] min-w-[44px] inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
   
   const variantStyles = {
-    primary: "bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/20",
-    secondary: "bg-gray-800 text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700",
-    outline: "bg-transparent border border-white/20 text-white hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-white/20"
+    primary: "bg-white text-black hover:bg-opacity-80 hover:text-black focus:outline-none focus:ring-2 focus:ring-white",
+    secondary: "bg-gray-800 text-white hover:bg-opacity-80 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-700",
+    outline: "bg-transparent border border-white/20 text-white hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
   }
   
   const styles = `${baseStyles} ${variantStyles[variant]} ${className}`

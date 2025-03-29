@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import ImageCarousel from '@/components/ImageCarousel'
 import SharedLayout from '@/components/SharedLayout'
 
+const buttonClasses = "rounded-md bg-white px-6 py-3 text-base font-semibold text-black shadow-sm hover:bg-opacity-80 hover:text-black focus:outline-none focus:ring-2 focus:ring-white min-h-[44px] min-w-[44px] inline-flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+
 const carouselImages = [
   {
     src: '/images/stamp.jpg',
@@ -98,7 +100,8 @@ export default function AboutPage() {
               </p>
               <a
                 href="mailto:oecus.info@gmail.com"
-                className="inline-flex items-center justify-center rounded-md bg-white/10 px-5 sm:px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200"
+                className={buttonClasses}
+                aria-label="Contact us via email"
               >
                 Contact Us
               </a>

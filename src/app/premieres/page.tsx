@@ -14,6 +14,8 @@ interface SubmissionFormData {
   additionalInfo?: string
 }
 
+const buttonClasses = "rounded-md bg-white px-6 py-3 text-base font-semibold text-black shadow-sm hover:bg-opacity-80 hover:text-black focus:outline-none focus:ring-2 focus:ring-white min-h-[44px] min-w-[44px] inline-flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+
 export default function PremieresPage() {
   const {
     register,
@@ -239,7 +241,8 @@ export default function PremieresPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-md bg-white px-4 py-3 text-sm font-semibold text-black shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={buttonClasses + " w-full"}
+                  aria-label="Submit premiere request"
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit Track'}
                 </button>
