@@ -280,14 +280,20 @@ const SlotMachineText = ({ text, onComplete }: { text: string, onComplete?: () =
   const [displayedText, setDisplayedText] = useState(Array(text.length).fill(" "));
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const [animationComplete, setAnimationComplete] = useState(false);
+  const animationStartedRef = useRef(false);
   
   useEffect(() => {
-    if (animationComplete) return;
+    if (animationComplete || animationStartedRef.current) return;
+    
+    // Mark that animation has started to prevent duplicate runs
+    animationStartedRef.current = true;
     
     // Calculate the total animation duration
     const lastLetterIndex = text.length - 1;
     const lastLetterCycles = 10 + lastLetterIndex * 3;
     const totalAnimationDuration = 400 + lastLetterIndex * 120 + (lastLetterCycles * 50);
+    
+    const timeouts: number[] = [];
     
     // For each letter, cycle through random letters before settling on the final one
     text.split('').forEach((targetLetter, index) => {
@@ -295,10 +301,10 @@ const SlotMachineText = ({ text, onComplete }: { text: string, onComplete?: () =
       const cycles = 10 + index * 3;
       
       // Initial delay to ensure all letters are visible before animation starts
-      setTimeout(() => {
+      const outerTimeoutId = window.setTimeout(() => {
         // Change each letter multiple times before settling on the final
         for (let i = 0; i < cycles; i++) {
-          setTimeout(() => {
+          const innerTimeoutId = window.setTimeout(() => {
             setDisplayedText(prev => {
               const newText = [...prev];
               // If it's the last cycle, use the target letter, otherwise use a random one
@@ -310,17 +316,28 @@ const SlotMachineText = ({ text, onComplete }: { text: string, onComplete?: () =
               return newText;
             });
           }, 50 * i);
+          timeouts.push(innerTimeoutId);
         }
       }, 300 + index * 120);
+      
+      timeouts.push(outerTimeoutId);
     });
     
     // Call onComplete after the animation finishes
+    let completeTimeoutId: number | null = null;
     if (onComplete) {
-      setTimeout(() => {
+      completeTimeoutId = window.setTimeout(() => {
         setAnimationComplete(true);
         onComplete();
       }, totalAnimationDuration + 200); // Add a bit of extra time to ensure all animations are done
+      
+      if (completeTimeoutId) timeouts.push(completeTimeoutId);
     }
+    
+    // Clean up all timeouts when component unmounts or dependencies change
+    return () => {
+      timeouts.forEach(id => window.clearTimeout(id));
+    };
   }, [text, onComplete, animationComplete]);
   
   return (
