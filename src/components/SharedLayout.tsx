@@ -20,7 +20,7 @@ export default function SharedLayout({ children }: SharedLayoutProps) {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-32">
+      <div className="relative z-10 pt-10 sm:pt-14 md:pt-16 pb-20 sm:pb-32">
         {children}
       </div>
     </div>

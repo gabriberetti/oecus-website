@@ -586,7 +586,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mx-auto max-w-3xl text-center pt-4 sm:pt-6 pb-6 sm:pb-8"
+              className="mx-auto max-w-3xl text-center pt-0 pb-6 sm:pb-8"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
                 Podcast Series
@@ -598,7 +598,7 @@ export default function Home() {
             </motion.div>
 
             {/* Full Playlist */}
-            <div className="mt-6 sm:mt-16 max-w-5xl mx-auto">
+            <div className="mt-6 sm:mt-12 lg:mt-14 max-w-5xl mx-auto">
               <div className="w-full">
                 <iframe 
                   width="100%" 
@@ -612,7 +612,7 @@ export default function Home() {
             </div>
 
             {/* Milestone Episodes */}
-            <div className="mx-auto mt-10 sm:mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2 hidden sm:grid">
+            <div className="mx-auto mt-8 sm:mt-12 lg:mt-14 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2 hidden sm:grid">
               {milestoneEpisodes.map((episode) => (
                 <motion.article
                   key={episode.number}
@@ -661,7 +661,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mx-auto max-w-3xl text-center pt-4 sm:pt-6 pb-6 sm:pb-8"
+              className="mx-auto max-w-3xl text-center pt-0 pb-6 sm:pb-8"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2 sm:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
                 Premieres
@@ -672,7 +672,7 @@ export default function Home() {
               <div className="w-16 h-0.5 bg-white/50 mx-auto mt-3"></div>
             </motion.div>
 
-            <div className="mt-6 sm:mt-14 max-w-5xl mx-auto">
+            <div className="mt-6 sm:mt-12 lg:mt-14 max-w-5xl mx-auto">
               <div className="w-full rounded-lg overflow-hidden shadow-lg">
                 <iframe
                   width="100%"
