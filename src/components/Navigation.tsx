@@ -60,9 +60,9 @@ export default function Navigation() {
         isScrolled ? 'bg-black/80 backdrop-blur-sm shadow-lg' : 'bg-transparent'
       }`}
     >
-      <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="flex items-center justify-between w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4">
         <div className="flex lg:flex-1">
-          <a href="#home" className="-m-1.5 p-1.5 flex items-center min-h-[44px] min-w-[44px]" 
+          <a href="#home" className="-m-1.5 p-1.5 flex items-center min-h-[48px] min-w-[48px]" 
             onClick={(e) => handleAnchorClick(e, '#home')}>
             <Image
               src="/images/OECUS Logo White.png"
@@ -70,27 +70,28 @@ export default function Navigation() {
               width={240}
               height={80}
               priority
-              className="w-auto h-[50px]"
+              className="w-auto h-[40px] sm:h-[45px] lg:h-[50px]"
             />
           </a>
         </div>
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md p-2.5 text-white hover:bg-white/10 active:bg-white/20 transition-colors"
+            className="min-h-[48px] min-w-[48px] inline-flex items-center justify-center rounded-md p-3 text-white hover:bg-white/10 active:bg-white/20 transition-colors"
             onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open menu"
           >
             <span className="sr-only">Open main menu</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className="hidden lg:flex lg:gap-x-6 xl:gap-x-8">
           {navigation.map((item) => (
             <a
               key={item.name}
               href={item.href}
               onClick={(e) => handleAnchorClick(e, item.href)}
-              className="text-base font-semibold leading-6 hover:text-gray-300 transition-colors min-h-[44px] min-w-[44px] inline-flex items-center px-2"
+              className="text-base font-semibold leading-6 hover:text-gray-300 transition-colors min-h-[48px] min-w-[48px] inline-flex items-center px-2 xl:px-3"
             >
               {item.name}
             </a>
@@ -99,38 +100,27 @@ export default function Navigation() {
       </div>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md transition-opacity duration-300" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-md px-6 py-8 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 transition-transform duration-300">
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-md px-4 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 transition-transform duration-300">
           <div className="flex items-center justify-between">
-            <a href="#home" className="-m-1.5 p-1.5 flex items-center min-h-[44px] min-w-[44px]" 
-              onClick={(e) => {
-                handleAnchorClick(e, '#home')
-                setMobileMenuOpen(false)
-              }}>
-              <Image
-                src="/images/OECUS Logo White.png"
-                alt="OECUS Logo"
-                width={180}
-                height={60}
-                className="w-auto h-[50px]"
-              />
-            </a>
+            <div className="h-[40px]"></div>
             <button
               type="button"
-              className="rounded-full min-h-[44px] min-w-[44px] inline-flex items-center justify-center p-2.5 text-white bg-white/5 hover:bg-white/10 active:bg-white/20 transition-colors"
+              className="rounded-full min-h-[48px] min-w-[48px] inline-flex items-center justify-center p-3 text-white bg-white/5 hover:bg-white/10 active:bg-white/20 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
             >
               <span className="sr-only">Close menu</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="mt-10 flow-root">
-            <div className="-my-6">
-              <div className="space-y-2 py-6">
+          <div className="mt-8 flow-root">
+            <div className="-my-6 flex flex-col justify-between min-h-[calc(100vh-100px)]">
+              <div className="space-y-3 py-6">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    className="block rounded-xl px-5 py-4 text-lg font-semibold leading-7 text-white bg-white/5 hover:bg-white/10 active:bg-white/15 transition-colors min-h-[54px] flex items-center"
+                    className="block rounded-xl px-5 py-4 text-base sm:text-lg font-semibold leading-7 text-white bg-white/5 hover:bg-white/10 active:bg-white/15 transition-colors min-h-[56px] flex items-center"
                     onClick={(e) => {
                       handleAnchorClick(e, item.href)
                       setMobileMenuOpen(false)
@@ -140,8 +130,17 @@ export default function Navigation() {
                   </a>
                 ))}
               </div>
-              <div className="py-6">
-                <div className="mt-6 text-center text-sm text-gray-400">
+              <div className="py-6 mt-auto">
+                <div className="flex flex-col items-center mb-6">
+                  <Image
+                    src="/images/OECUS Logo White.png"
+                    alt="OECUS Logo"
+                    width={240}
+                    height={80}
+                    className="w-auto h-[70px]"
+                  />
+                </div>
+                <div className="text-center text-sm text-gray-400">
                   © {new Date().getFullYear()} OECUS
                 </div>
               </div>
