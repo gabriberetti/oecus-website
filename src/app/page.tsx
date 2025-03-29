@@ -296,6 +296,7 @@ export default function Home() {
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [revealedEpisodes, setRevealedEpisodes] = useState<{ [key: number]: boolean }>({})
   
   // Handle video loaded event
   useEffect(() => {
@@ -531,36 +532,111 @@ export default function Home() {
             </div>
 
             {/* Milestone Episodes */}
-            <div className="mx-auto mt-8 sm:mt-12 lg:mt-14 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2 hidden sm:grid">
-              {milestoneEpisodes.map((episode) => (
-                <motion.article
-                  key={episode.number}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                  className="flex flex-col h-full bg-black/30 rounded-lg overflow-hidden border border-white/10"
+            <div className="mx-auto mt-8 sm:mt-12 lg:mt-14 max-w-5xl">
+              <div className="relative">
+                <motion.div 
+                  initial={{ opacity: 1, position: "relative" }}
+                  animate={{ 
+                    opacity: Object.values(revealedEpisodes).some(v => v) ? 0 : 1,
+                    position: Object.values(revealedEpisodes).some(v => v) ? "absolute" : "relative",
+                    zIndex: Object.values(revealedEpisodes).some(v => v) ? -10 : 10
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.5 },
+                    zIndex: { delay: 0.5 }
+                  }}
+                  className="w-full border border-white/10 bg-black/40 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer overflow-hidden"
+                  style={{ height: "200px" }}
+                  onClick={() => {
+                    const revealed: { [key: number]: boolean } = {};
+                    milestoneEpisodes.forEach(ep => {
+                      revealed[ep.number] = true;
+                    });
+                    setRevealedEpisodes(revealed);
+                  }}
+                  whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 >
-                  <div className="p-6 pb-4 flex flex-col h-full">
-                    <h3 className="text-xl font-semibold leading-6 text-white">
-                      {episode.title}
-                    </h3>
-                    <p className="mt-2 text-base leading-6 text-gray-200 mb-4 flex-grow">
-                      {episode.description}
-                    </p>
-                    <div className="w-full rounded-md overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="166"
-                        scrolling="no"
-                        frameBorder="no"
-                        allow="autoplay"
-                        src={episode.embedUrl.replace("%23ff5500", "%23111111")}
-                      ></iframe>
+                  <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute top-[40%] left-0 w-full h-px bg-white/10"></div>
+                    <div className="absolute top-[60%] left-0 w-full h-px bg-white/5"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10">
+                      <div className="text-center">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <div className="h-2 w-2 rounded-full bg-white/60"></div>
+                          <div className="font-mono text-xl tracking-widest text-white">MILESTONE ARCHIVE</div>
+                          <div className="h-2 w-2 rounded-full bg-white/60"></div>
+                        </div>
+                        <div className="text-xs text-white/60 uppercase tracking-widest">Click to unlock all episodes</div>
+                      </div>
                     </div>
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
+                      animate={{ 
+                        x: ['-100%', '100%'],
+                      }}
+                      transition={{ 
+                        repeat: Infinity, 
+                        duration: 4,
+                        ease: "linear"
+                      }}
+                    />
                   </div>
-                </motion.article>
-              ))}
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ 
+                    opacity: Object.values(revealedEpisodes).some(v => v) ? 1 : 0,
+                    scale: Object.values(revealedEpisodes).some(v => v) ? 1 : 0.98,
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.8 },
+                    scale: { duration: 0.5 },
+                    delay: Object.values(revealedEpisodes).some(v => v) ? 0.3 : 0
+                  }}
+                  className="w-full overflow-hidden"
+                  style={{ 
+                    minHeight: "200px",
+                    display: Object.values(revealedEpisodes).some(v => v) ? "block" : "none"
+                  }}
+                >
+                  <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+                    {milestoneEpisodes.map((episode) => (
+                      <motion.article
+                        key={episode.number}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: episode.number === 400 ? 0 : (400 - episode.number) / 100 * 0.2 }}
+                        className="flex flex-col h-full bg-black/30 rounded-lg overflow-hidden border border-white/10"
+                      >
+                        <div className="p-6 pb-4 flex flex-col h-full">
+                          <div className="flex justify-between items-center mb-3">
+                            <h3 className="text-lg font-semibold leading-6 text-white">
+                              {episode.title}
+                            </h3>
+                            <div className="text-xs text-white/60 font-mono tracking-wider">
+                              EP.{episode.number}
+                            </div>
+                          </div>
+                          <p className="mt-2 text-sm leading-6 text-gray-300 mb-4 flex-grow">
+                            {episode.description}
+                          </p>
+                          <div className="w-full rounded-md overflow-hidden">
+                            <iframe
+                              width="100%"
+                              height="166"
+                              scrolling="no"
+                              frameBorder="no"
+                              allow="autoplay"
+                              src={episode.embedUrl.replace("%23ff5500", "%23111111")}
+                            ></iframe>
+                          </div>
+                        </div>
+                      </motion.article>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>
@@ -600,206 +676,262 @@ export default function Home() {
                 ></iframe>
               </div>
               
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mt-10 mb-8 text-center">Submit Your Track</h2>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mt-0 sm:mt-6 mx-auto max-w-5xl"
-            >
-              <div className="prose prose-invert max-w-none">
-                <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-200 mb-10 sm:mb-14 text-center max-w-3xl mx-auto">
-                  We offer a professional premiere service designed to maximize exposure for your release. With over 1 million plays annually, our platform connects your music with a dedicated audience in the electronic music scene.
-                </p>
-
-                <div className="mb-10 sm:mb-14 max-w-2xl mx-auto">
-                  <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-6 sm:mb-8 text-center">Premiere Package</h3>
-                  <ul className="list-none space-y-5 text-gray-200 bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10">
-                    <li className="flex items-center space-x-4">
-                      <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
-                      <span className="text-base">SoundCloud Premiere – Featured on our curated Premiere Playlist</span>
-                    </li>
-                    <li className="flex items-center space-x-4">
-                      <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
-                      <span className="text-base">YouTube Premiere – Published on our official channel</span>
-                    </li>
-                    <li className="flex items-center space-x-4">
-                      <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
-                      <span className="text-base">Instagram Promotion – Story feature with artist & label tags + reshares</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl mx-auto bg-black/30 p-8 sm:p-10 rounded-lg border border-white/10">
-                  <div>
-                    <label htmlFor="artistName" className="block text-sm font-medium text-gray-300">
-                      Artist Name
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        id="artistName"
-                        {...register('artistName', { required: 'Artist name is required' })}
-                        className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                        placeholder="Artist name"
-                      />
-                      {errors.artistName && (
-                        <p className="mt-1 text-sm text-red-400">{errors.artistName.message}</p>
-                      )}
+              <div className="relative mt-10">
+                <motion.div 
+                  initial={{ opacity: 1, position: "relative" }}
+                  animate={{ 
+                    opacity: submitStatus === 'success' || submitStatus === 'error' ? 0 : 1,
+                    position: submitStatus === 'success' || submitStatus === 'error' ? "absolute" : "relative",
+                    zIndex: submitStatus === 'success' || submitStatus === 'error' ? -10 : 10
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.5 },
+                    zIndex: { delay: 0.5 }
+                  }}
+                  className="w-full border border-white/10 bg-black/40 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer overflow-hidden"
+                  style={{ height: "200px" }}
+                  onClick={() => setSubmitStatus('error')}
+                  whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                >
+                  <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute top-[40%] left-0 w-full h-px bg-white/10"></div>
+                    <div className="absolute top-[60%] left-0 w-full h-px bg-white/5"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10">
+                      <div className="text-center">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <div className="h-2 w-2 rounded-full bg-white/60"></div>
+                          <div className="font-mono text-xl tracking-widest text-white">SUBMIT YOUR TRACK</div>
+                          <div className="h-2 w-2 rounded-full bg-white/60"></div>
+                        </div>
+                        <div className="text-xs text-white/60 uppercase tracking-widest">Click to access submission form</div>
+                      </div>
                     </div>
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
+                      animate={{ 
+                        x: ['-100%', '100%'],
+                      }}
+                      transition={{ 
+                        repeat: Infinity, 
+                        duration: 4,
+                        ease: "linear"
+                      }}
+                    />
                   </div>
+                </motion.div>
 
-                  <div>
-                    <label htmlFor="label" className="block text-sm font-medium text-gray-300">
-                      Label
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        id="label"
-                        {...register('label', { required: 'Label name is required' })}
-                        className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                        placeholder="Label name"
-                      />
-                      {errors.label && (
-                        <p className="mt-1 text-sm text-red-400">{errors.label.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="catalogCode" className="block text-sm font-medium text-gray-300">
-                      Catalog Code
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        id="catalogCode"
-                        {...register('catalogCode', { required: 'Catalog code is required' })}
-                        className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                        placeholder="e.g., ABC123"
-                      />
-                      {errors.catalogCode && (
-                        <p className="mt-1 text-sm text-red-400">{errors.catalogCode.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="downloadLink" className="block text-sm font-medium text-gray-300">
-                      Download Link
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="url"
-                        id="downloadLink"
-                        {...register('downloadLink', { 
-                          required: 'Download link is required',
-                          pattern: {
-                            value: /^https?:\/\/.+/i,
-                            message: 'Please enter a valid URL'
-                          }
-                        })}
-                        className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                        placeholder="https://..."
-                      />
-                      {errors.downloadLink && (
-                        <p className="mt-1 text-sm text-red-400">{errors.downloadLink.message}</p>
-                      )}
-                    </div>
-                    <p className="mt-1 text-sm text-gray-400">
-                      Please provide a permanent download link containing all assets (music, artwork, details)
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ 
+                    opacity: submitStatus === 'success' || submitStatus === 'error' ? 1 : 0,
+                    scale: submitStatus === 'success' || submitStatus === 'error' ? 1 : 0.98,
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.8 },
+                    scale: { duration: 0.5 },
+                    delay: 0.3
+                  }}
+                  className="w-full overflow-hidden"
+                  style={{ 
+                    minHeight: "200px",
+                    display: submitStatus === 'success' || submitStatus === 'error' ? "block" : "none"
+                  }}
+                >
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mt-4 mb-8 text-center">Submit Your Track</h2>
+                
+                  <div className="prose prose-invert max-w-none">
+                    <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-200 mb-10 sm:mb-14 text-center max-w-3xl mx-auto">
+                      We offer a professional premiere service designed to maximize exposure for your release. With over 1 million plays annually, our platform connects your music with a dedicated audience in the electronic music scene.
                     </p>
-                  </div>
 
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                      Email
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="email"
-                        id="email"
-                        {...register('email', { 
-                          required: 'Email is required',
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: 'Please enter a valid email address'
-                          }
-                        })}
-                        className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                        placeholder="you@example.com"
-                      />
-                      {errors.email && (
-                        <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
+                    <div className="mb-10 sm:mb-14 max-w-2xl mx-auto">
+                      <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-6 sm:mb-8 text-center">Premiere Package</h3>
+                      <ul className="list-none space-y-5 text-gray-200 bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10">
+                        <li className="flex items-center space-x-4">
+                          <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
+                          <span className="text-base">SoundCloud Premiere – Featured on our curated Premiere Playlist</span>
+                        </li>
+                        <li className="flex items-center space-x-4">
+                          <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
+                          <span className="text-base">YouTube Premiere – Published on our official channel</span>
+                        </li>
+                        <li className="flex items-center space-x-4">
+                          <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
+                          <span className="text-base">Instagram Promotion – Story feature with artist & label tags + reshares</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl mx-auto bg-black/30 p-8 sm:p-10 rounded-lg border border-white/10">
+                      <div>
+                        <label htmlFor="artistName" className="block text-sm font-medium text-gray-300">
+                          Artist Name
+                        </label>
+                        <div className="mt-1">
+                          <input
+                            type="text"
+                            id="artistName"
+                            {...register('artistName', { required: 'Artist name is required' })}
+                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                            placeholder="Artist name"
+                          />
+                          {errors.artistName && (
+                            <p className="mt-1 text-sm text-red-400">{errors.artistName.message}</p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="label" className="block text-sm font-medium text-gray-300">
+                          Label
+                        </label>
+                        <div className="mt-1">
+                          <input
+                            type="text"
+                            id="label"
+                            {...register('label', { required: 'Label name is required' })}
+                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                            placeholder="Label name"
+                          />
+                          {errors.label && (
+                            <p className="mt-1 text-sm text-red-400">{errors.label.message}</p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="catalogCode" className="block text-sm font-medium text-gray-300">
+                          Catalog Code
+                        </label>
+                        <div className="mt-1">
+                          <input
+                            type="text"
+                            id="catalogCode"
+                            {...register('catalogCode', { required: 'Catalog code is required' })}
+                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                            placeholder="e.g., ABC123"
+                          />
+                          {errors.catalogCode && (
+                            <p className="mt-1 text-sm text-red-400">{errors.catalogCode.message}</p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="downloadLink" className="block text-sm font-medium text-gray-300">
+                          Download Link
+                        </label>
+                        <div className="mt-1">
+                          <input
+                            type="url"
+                            id="downloadLink"
+                            {...register('downloadLink', { 
+                              required: 'Download link is required',
+                              pattern: {
+                                value: /^https?:\/\/.+/i,
+                                message: 'Please enter a valid URL'
+                              }
+                            })}
+                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                            placeholder="https://..."
+                          />
+                          {errors.downloadLink && (
+                            <p className="mt-1 text-sm text-red-400">{errors.downloadLink.message}</p>
+                          )}
+                        </div>
+                        <p className="mt-1 text-sm text-gray-400">
+                          Please provide a permanent download link containing all assets (music, artwork, details)
+                        </p>
+                      </div>
+
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                          Email
+                        </label>
+                        <div className="mt-1">
+                          <input
+                            type="email"
+                            id="email"
+                            {...register('email', { 
+                              required: 'Email is required',
+                              pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: 'Please enter a valid email address'
+                              }
+                            })}
+                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                            placeholder="you@example.com"
+                          />
+                          {errors.email && (
+                            <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-300">
+                          Additional Information
+                        </label>
+                        <div className="mt-1">
+                          <textarea
+                            id="additionalInfo"
+                            rows={4}
+                            {...register('additionalInfo')}
+                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
+                            placeholder="Any additional information about your release"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="pt-4">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className={buttonClasses + " w-full"}
+                          aria-label="Submit premiere request"
+                        >
+                          {isSubmitting ? 'Submitting...' : 'Submit Track'}
+                        </button>
+                      </div>
+
+                      {submitStatus === 'success' && (
+                        <div className="rounded-md bg-green-500/10 p-4 mt-4">
+                          <div className="flex">
+                            <div className="flex-shrink-0">
+                              <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                            <div className="ml-3">
+                              <p className="text-sm font-medium text-green-400">
+                                Submission successful! We'll be in touch soon.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       )}
-                    </div>
+
+                      {submitStatus === 'error' && errorMessage && (
+                        <div className="rounded-md bg-red-500/10 p-4 mt-4">
+                          <div className="flex">
+                            <div className="flex-shrink-0">
+                              <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                            <div className="ml-3">
+                              <p className="text-sm font-medium text-red-400">
+                                {errorMessage || 'An error occurred. Please try again.'}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </form>
                   </div>
-
-                  <div>
-                    <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-300">
-                      Additional Information
-                    </label>
-                    <div className="mt-1">
-                      <textarea
-                        id="additionalInfo"
-                        rows={4}
-                        {...register('additionalInfo')}
-                        className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                        placeholder="Any additional information about your release"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className={buttonClasses + " w-full"}
-                      aria-label="Submit premiere request"
-                    >
-                      {isSubmitting ? 'Submitting...' : 'Submit Track'}
-                    </button>
-                  </div>
-
-                  {submitStatus === 'success' && (
-                    <div className="rounded-md bg-green-500/10 p-4 mt-4">
-                      <div className="flex">
-                        <div className="flex-shrink-0">
-                          <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <div className="ml-3">
-                          <p className="text-sm font-medium text-green-400">
-                            Submission successful! We'll be in touch soon.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {submitStatus === 'error' && (
-                    <div className="rounded-md bg-red-500/10 p-4 mt-4">
-                      <div className="flex">
-                        <div className="flex-shrink-0">
-                          <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <div className="ml-3">
-                          <p className="text-sm font-medium text-red-400">
-                            {errorMessage || 'An error occurred. Please try again.'}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </form>
+                </motion.div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
 
@@ -1000,9 +1132,11 @@ export default function Home() {
 
               {/* Contact Section */}
               <div className="pt-14 sm:pt-20 text-center mx-auto">
-                <div className="bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10 shadow-lg max-w-md mx-auto">
-                  <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-4">Get in Touch</h2>
-                  <p className="text-base text-gray-200 mb-6">
+                <div className="max-w-3xl mx-auto">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-300">
+                    Get in Touch
+                  </h2>
+                  <p className="text-base text-gray-200 mb-6 max-w-2xl mx-auto">
                     Have a question or want to collaborate? We'd love to hear from you.
                   </p>
                   <a
