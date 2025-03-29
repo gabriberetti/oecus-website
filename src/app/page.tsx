@@ -353,6 +353,39 @@ const buttonClasses = "rounded-md bg-white px-6 py-3 text-base font-semibold tex
 // Common section class for styling and hover effects
 const sectionClasses = "mx-auto max-w-7xl py-16 sm:py-24 bg-black/80 backdrop-blur-sm rounded-2xl border border-white/10 mb-16 sm:mb-24 relative overflow-hidden transition-all duration-300 group hover:bg-black/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.1)]";
 
+/* Define a reusable minimal SoundCloud player for embeds */
+function MinimalSoundCloudPlayer({ url, height = 166 }: { url: string, height?: number }) {
+  const minimalParams = "&color=%23111111&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false";
+  const fullParams = "&color=%23111111&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true";
+  
+  return (
+    <>
+      {/* Mobile minimal version */}
+      <div className="sm:hidden">
+        <iframe
+          width="100%"
+          height={height}
+          scrolling="no"
+          frameBorder="no"
+          allow="autoplay"
+          src={`${url}${minimalParams}`}
+        ></iframe>
+      </div>
+      {/* Desktop full version */}
+      <div className="hidden sm:block">
+        <iframe
+          width="100%"
+          height={height}
+          scrolling="no"
+          frameBorder="no"
+          allow="autoplay"
+          src={`${url}${fullParams}`}
+        ></iframe>
+      </div>
+    </>
+  );
+}
+
 export default function Home() {
   const {
     register,
@@ -599,16 +632,11 @@ export default function Home() {
 
             {/* Full Playlist */}
             <div className="mt-6 sm:mt-16 max-w-5xl mx-auto">
-              <h3 className="text-2xl font-bold tracking-tight mb-6 sm:mb-8">Full Playlist</h3>
               <div className="w-full">
-                <iframe 
-                  width="100%" 
-                  height="450" 
-                  scrolling="no" 
-                  frameBorder="no" 
-                  allow="autoplay" 
-                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/358065966&color=%23111111&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-                ></iframe>
+                <MinimalSoundCloudPlayer 
+                  url="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/358065966" 
+                  height={450} 
+                />
               </div>
             </div>
 
@@ -632,14 +660,7 @@ export default function Home() {
                         {episode.description}
                       </p>
                       <div className="w-full rounded-md overflow-hidden">
-                        <iframe
-                          width="100%"
-                          height="166"
-                          scrolling="no"
-                          frameBorder="no"
-                          allow="autoplay"
-                          src={episode.embedUrl.replace("%23ff5500", "%23111111")}
-                        ></iframe>
+                        <MinimalSoundCloudPlayer url={episode.embedUrl.replace("%23ff5500", "%23111111")} />
                       </div>
                     </div>
                   </motion.article>
@@ -676,17 +697,11 @@ export default function Home() {
             </motion.div>
 
             <div className="mt-6 sm:mt-14 max-w-5xl mx-auto">
-              <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-4 sm:mb-8 text-center">Premiere Series</h3>
               <div className="w-full rounded-lg overflow-hidden shadow-lg">
-                <iframe
-                  width="100%"
-                  height="450"
-                  scrolling="no"
-                  frameBorder="no"
-                  allow="autoplay"
-                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1128431950&color=%23111111&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-                  className="hover:opacity-95 transition-opacity"
-                ></iframe>
+                <MinimalSoundCloudPlayer 
+                  url="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1128431950" 
+                  height={450} 
+                />
               </div>
               
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mt-10 mb-8 text-center">Submit Your Track</h2>
