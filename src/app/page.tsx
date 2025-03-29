@@ -612,37 +612,39 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Milestone Episodes */}
-            <div className="mx-auto mt-10 sm:mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
-              {milestoneEpisodes.map((episode) => (
-                <motion.article
-                  key={episode.number}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                  className="flex flex-col h-full bg-black/30 rounded-lg overflow-hidden border border-white/10"
-                >
-                  <div className="p-6 pb-4 flex flex-col h-full">
-                    <h3 className="text-xl font-semibold leading-6 text-white">
-                      {episode.title}
-                    </h3>
-                    <p className="mt-2 text-base leading-6 text-gray-200 mb-4 flex-grow">
-                      {episode.description}
-                    </p>
-                    <div className="w-full rounded-md overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="166"
-                        scrolling="no"
-                        frameBorder="no"
-                        allow="autoplay"
-                        src={episode.embedUrl.replace("%23ff5500", "%23111111")}
-                      ></iframe>
+            {/* Milestone Episodes - Hidden on mobile */}
+            <div className="hidden sm:block">
+              <div className="mx-auto mt-10 sm:mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
+                {milestoneEpisodes.map((episode) => (
+                  <motion.article
+                    key={episode.number}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="flex flex-col h-full bg-black/30 rounded-lg overflow-hidden border border-white/10"
+                  >
+                    <div className="p-6 pb-4 flex flex-col h-full">
+                      <h3 className="text-xl font-semibold leading-6 text-white">
+                        {episode.title}
+                      </h3>
+                      <p className="mt-2 text-base leading-6 text-gray-200 mb-4 flex-grow">
+                        {episode.description}
+                      </p>
+                      <div className="w-full rounded-md overflow-hidden">
+                        <iframe
+                          width="100%"
+                          height="166"
+                          scrolling="no"
+                          frameBorder="no"
+                          allow="autoplay"
+                          src={episode.embedUrl.replace("%23ff5500", "%23111111")}
+                        ></iframe>
+                      </div>
                     </div>
-                  </div>
-                </motion.article>
-              ))}
+                  </motion.article>
+                ))}
+              </div>
             </div>
           </div>
         </div>
