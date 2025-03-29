@@ -711,7 +711,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mt-0 sm:mt-6 mx-auto max-w-5xl"
+              className="mx-auto max-w-full px-1 sm:px-4 lg:px-8"
             >
               <div className="prose prose-invert max-w-none">
                 <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-200 mb-10 sm:mb-14 text-center max-w-3xl mx-auto">
@@ -1020,20 +1020,36 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mx-auto max-w-full px-1 sm:px-4 lg:px-8"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+              {/* Mobile view: Display releases with load more capability */}
+              <div className="sm:hidden grid grid-cols-1 gap-4">
                 {displayedReleases.slice(0, visibleReleasesCount).map((release, index) => (
                   <motion.div
-                    key={release.id + release.title}
+                    key={`mobile-${release.id}-${release.title}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
                     className="relative h-full"
                   >
                     <ClientOnlyBandcampEmbed release={release} />
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              {/* Desktop view: Display all releases */}
+              <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                {displayedReleases.slice(0, visibleReleasesCount).map((release, index) => (
+                  <motion.div
+                    key={`desktop-${release.id}-${release.title}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
+                    className="relative h-full"
+                  >
+                    <ClientOnlyBandcampEmbed release={release} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
             {visibleReleasesCount < releases.length && (
               <motion.div 
