@@ -1020,9 +1020,9 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mx-auto max-w-full px-1 sm:px-4 lg:px-8"
             >
-              {/* Mobile view: Display releases with load more capability */}
+              {/* Mobile view: Display only 3 releases */}
               <div className="sm:hidden grid grid-cols-1 gap-4">
-                {displayedReleases.slice(0, visibleReleasesCount).map((release, index) => (
+                {displayedReleases.slice(0, Math.min(3, visibleReleasesCount)).map((release, index) => (
                   <motion.div
                     key={`mobile-${release.id}-${release.title}`}
                     initial={{ opacity: 0, y: 20 }}
@@ -1123,9 +1123,9 @@ export default function Home() {
               </div>
 
                 <div className="bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10 shadow-lg">
-                  <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-4">Events & Community</h2>
+                  <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-4">Events</h2>
                   <p className="text-base leading-7 sm:leading-8 text-gray-200">
-                    For more than 10 years, OECUS has been hosting its own events in various clubs locally and internationally, continuing to create memorable experiences and pushing talents for its growing community.
+                    For more than 10 years, OECUS has been hosting its own events in various clubs locally and internationally, continuing to create memorable experiences and pushing talents in the electromic music community.
                 </p>
               </div>
               </motion.div>
