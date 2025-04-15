@@ -20,12 +20,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'OECUS | Electronic Music Collective & Record Label',
   description: 'OECUS is an innovative electronic music collective and record label based in Berlin, specializing in techno, ambient and experimental electronic music. Explore our releases, podcasts, mastering services and premieres.',
-  metadataBase: new URL('https://oecus.com'),
+  metadataBase: new URL('https://oecus-music.com'),
   keywords: 'OECUS, electronic music, techno, music collective, record label, podcasts, music premieres, audio mastering, underground music',
   openGraph: {
     title: 'OECUS | Electronic Music Collective & Record Label',
     description: 'OECUS is an innovative electronic music collective and record label based in Berlin, specializing in techno and experimental electronic music.',
-    url: 'https://oecus.com',
+    url: 'https://oecus-music.com',
     siteName: 'OECUS',
     locale: 'en_US',
     type: 'website',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     images: ['/images/oecus-social.jpg'],
   },
   alternates: {
-    canonical: 'https://oecus.com',
+    canonical: 'https://oecus-music.com',
   },
   robots: {
     index: true,
@@ -89,8 +89,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "MusicGroup",
               "name": "OECUS",
-              "url": "https://oecus.com",
-              "logo": "https://oecus.com/images/logo.png",
+              "url": "https://oecus-music.com",
+              "logo": "https://oecus-music.com/images/logo.png",
               "description": "OECUS is an innovative electronic music collective and record label based in Berlin, specializing in techno, ambient and experimental electronic music.",
               "genre": ["Electronic", "Techno", "Experimental", "Ambient"],
               "sameAs": [

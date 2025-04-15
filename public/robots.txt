@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://oecus.com/sitemap.xml
+Sitemap: https://oecus-music.com/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 10 

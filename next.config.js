@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['oecus.com', 'soundcloud.com'],
+    domains: ['oecus-music.com', 'soundcloud.com'],
     formats: ['image/avif', 'image/webp']
   },
   i18n: {
