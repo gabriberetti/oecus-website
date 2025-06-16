@@ -1,0 +1,14 @@
+# OECUS - Electronic Music Collective
+
+## TEAM
+Developer: OECUS Team
+Contact: contact@oecus-music.com
+Location: Berlin, Germany
+
+## SITE
+Standards: HTML5, CSS3, JavaScript
+Components: React, Next.js, TypeScript
+Software: VS Code
+
+## LAST UPDATE
+2025-01-20 

@@ -1,8 +1,20 @@
 User-agent: *
 Allow: /
 
+# Block unnecessary crawling
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
+Disallow: /.git/
+
 # Sitemap
 Sitemap: https://oecus-music.com/sitemap.xml
 
-# Crawl delay
-Crawl-delay: 10 
+# Additional files
+# Humans: https://oecus-music.com/humans.txt
+
+# Crawl delay (reduced for better indexing)
+Crawl-delay: 1
+
+# Cache directive
+Cache-delay: 86400 
