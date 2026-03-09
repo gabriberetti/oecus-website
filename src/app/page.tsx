@@ -1,9 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
 import ImageCarousel from '@/components/ImageCarousel'
 import dynamic from 'next/dynamic'
 import SlotMachineText from '@/components/SlotMachineText'
@@ -105,15 +103,6 @@ const milestoneEpisodes = [
   },
 ]
 
-interface SubmissionFormData {
-  artistName: string
-  label: string
-  catalogCode: string
-  downloadLink: string
-  email: string
-  additionalInfo?: string
-}
-
 interface Release {
   id: string
   title: string
@@ -122,6 +111,24 @@ interface Release {
 }
 
 const releases: Release[] = [
+  {
+    id: "1515055747",
+    title: "OCSDGTL019 | VA",
+    artist: "Mara Menace, FVKS, Jiakar, Kabay, Kamen, Avant.OCS, Oculus, Lucas Sosa (AR), Atonal Rytm",
+    releaseDate: "2026"
+  },
+  {
+    id: "4195347584",
+    title: "Techno Sample Pack Vol.1",
+    artist: "OECUS",
+    releaseDate: "2026"
+  },
+  {
+    id: "3953658225",
+    title: "Clockwork [OCS003]",
+    artist: "Avant.OCS x Red Rooms",
+    releaseDate: "2025"
+  },
   {
     id: "1768721969",
     title: "OCSDGTL018 | VA",
@@ -274,15 +281,6 @@ const buttonClasses = "rounded-md bg-white px-6 py-3 text-base font-semibold tex
 const sectionClasses = "mx-auto max-w-7xl py-16 sm:py-24 bg-black/80 backdrop-blur-sm rounded-2xl border border-white/10 mb-16 sm:mb-24 relative overflow-hidden transition-all duration-300 group hover:bg-black/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.1)]";
 
 export default function Home() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset
-  } = useForm<SubmissionFormData>()
-
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
   const [displayedReleases, setDisplayedReleases] = useState<Release[]>([])
   const [visibleReleasesCount, setVisibleReleasesCount] = useState(3)
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false)
@@ -316,38 +314,12 @@ export default function Home() {
     }
   }, []);
   
-  // Initialize with releases on component mount
-  React.useEffect(() => {
+  useEffect(() => {
     setDisplayedReleases(releases)
   }, [])
 
   const handleLoadMore = () => {
     setVisibleReleasesCount(prev => Math.min(prev + 3, releases.length))
-  }
-
-  const onSubmit = async (data: SubmissionFormData) => {
-    try {
-      setSubmitStatus('idle')
-      setErrorMessage('')
-
-      const response = await fetch('/api/premiere-submission', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to send submission')
-      }
-
-      setSubmitStatus('success')
-      reset() // Clear form
-    } catch (error) {
-      setSubmitStatus('error')
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to send submission')
-    }
   }
 
   return (
@@ -667,261 +639,53 @@ export default function Home() {
                   className="hover:opacity-95 transition-opacity"
                 ></iframe>
               </div>
-              
-              <div className="relative mt-10">
-                <motion.div 
-                  initial={{ opacity: 1, position: "relative" }}
-                  animate={{ 
-                    opacity: submitStatus === 'success' || submitStatus === 'error' ? 0 : 1,
-                    position: submitStatus === 'success' || submitStatus === 'error' ? "absolute" : "relative",
-                    zIndex: submitStatus === 'success' || submitStatus === 'error' ? -10 : 10
-                  }}
-                  transition={{ 
-                    opacity: { duration: 0.5 },
-                    zIndex: { delay: 0.5 }
-                  }}
-                  className="w-full border border-white/10 bg-black/40 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer overflow-hidden"
-                  style={{ height: "200px" }}
-                  onClick={() => setSubmitStatus('error')}
-                  whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                >
-                  <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute top-[40%] left-0 w-full h-px bg-white/10"></div>
-                    <div className="absolute top-[60%] left-0 w-full h-px bg-white/5"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10">
-                      <div className="text-center">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <div className="h-2 w-2 rounded-full bg-white/60"></div>
-                          <div className="font-mono text-xl tracking-widest text-white">SUBMIT YOUR TRACK</div>
-                          <div className="h-2 w-2 rounded-full bg-white/60"></div>
-                        </div>
-                        <div className="text-xs text-white/60 uppercase tracking-widest">Click to access submission form</div>
-                      </div>
-                    </div>
-                    <motion.div 
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                      animate={{ 
-                        x: ['-100%', '100%'],
-                      }}
-                      transition={{ 
-                        repeat: Infinity, 
-                        duration: 4,
-                        ease: "linear"
-                      }}
-                    />
-                  </div>
-                </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ 
-                    opacity: submitStatus === 'success' || submitStatus === 'error' ? 1 : 0,
-                    scale: submitStatus === 'success' || submitStatus === 'error' ? 1 : 0.98,
-                  }}
-                  transition={{ 
-                    opacity: { duration: 0.8 },
-                    scale: { duration: 0.5 },
-                    delay: 0.3
-                  }}
-                  className="w-full overflow-hidden"
-                  style={{ 
-                    minHeight: "200px",
-                    display: submitStatus === 'success' || submitStatus === 'error' ? "block" : "none"
-                  }}
-                >
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mt-4 mb-8 text-center">Submit Your Track</h2>
-                
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-base sm:text-lg leading-7 sm:leading-8 text-gray-200 mb-10 sm:mb-14 text-center max-w-3xl mx-auto">
-                      We offer a professional premiere service designed to maximize exposure for your release. With over 1 million plays annually, our platform connects your music with a dedicated audience in the electronic music scene.
-                    </p>
+              <div className="mt-10 max-w-2xl mx-auto">
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3 text-center">Submit Your Track</h2>
+                <p className="text-base text-gray-300 text-center mb-8">
+                  We offer a professional premiere service designed to maximize exposure for your release. With over 1 million plays annually, our platform connects your music with a dedicated audience in the electronic music scene.
+                </p>
 
-                    <div className="mb-10 sm:mb-14 max-w-2xl mx-auto">
-                      <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-6 sm:mb-8 text-center">Premiere Package</h3>
-                      <ul className="list-none space-y-5 text-gray-200 bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10">
-                        <li className="flex items-center space-x-4">
-                          <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
-                          <span className="text-base">SoundCloud Premiere – Featured on our curated Premiere Playlist</span>
-                        </li>
-                        <li className="flex items-center space-x-4">
-                          <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
-                          <span className="text-base">YouTube Premiere – Published on our official channel</span>
-                        </li>
-                        <li className="flex items-center space-x-4">
-                          <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
-                          <span className="text-base">Instagram Promotion – Story feature with artist & label tags + reshares</span>
-                        </li>
-                      </ul>
-                    </div>
+                <ul className="list-none space-y-4 text-gray-200 bg-black/30 p-6 sm:p-8 rounded-lg border border-white/10 mb-8">
+                  <li className="flex items-center space-x-4">
+                    <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
+                    <span className="text-base">SoundCloud Premiere – Featured on our curated Premiere Playlist</span>
+                  </li>
+                  <li className="flex items-center space-x-4">
+                    <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
+                    <span className="text-base">YouTube Premiere – Published on our official channel</span>
+                  </li>
+                  <li className="flex items-center space-x-4">
+                    <span className="h-2 w-2 rounded-full bg-white flex-shrink-0"></span>
+                    <span className="text-base">Instagram Promotion – Story feature with artist & label tags + reshares</span>
+                  </li>
+                </ul>
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl mx-auto bg-black/30 p-8 sm:p-10 rounded-lg border border-white/10">
-                      <div>
-                        <label htmlFor="artistName" className="block text-sm font-medium text-gray-300">
-                          Artist Name
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="text"
-                            id="artistName"
-                            {...register('artistName', { required: 'Artist name is required' })}
-                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                            placeholder="Artist name"
-                          />
-                          {errors.artistName && (
-                            <p className="mt-1 text-sm text-red-400">{errors.artistName.message}</p>
-                          )}
-                        </div>
-                      </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <a
+                    href="https://buy.stripe.com/4gMeV6fbj4G0eYvchFaMU00"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center justify-center gap-2 rounded-lg bg-white/5 border border-white/10 px-6 py-6 text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200 group"
+                    aria-label="Step 1: Pay via Stripe"
+                  >
+                    <span className="text-xs font-mono tracking-widest text-white/50 uppercase group-hover:text-white/70 transition-colors">Step 1</span>
+                    <span className="text-lg font-bold tracking-tight">Pay via Stripe</span>
+                    <span className="text-sm text-gray-400 text-center">Complete your payment to reserve your premiere slot</span>
+                  </a>
 
-                      <div>
-                        <label htmlFor="label" className="block text-sm font-medium text-gray-300">
-                          Label
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="text"
-                            id="label"
-                            {...register('label', { required: 'Label name is required' })}
-                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                            placeholder="Label name"
-                          />
-                          {errors.label && (
-                            <p className="mt-1 text-sm text-red-400">{errors.label.message}</p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div>
-                        <label htmlFor="catalogCode" className="block text-sm font-medium text-gray-300">
-                          Catalog Code
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="text"
-                            id="catalogCode"
-                            {...register('catalogCode', { required: 'Catalog code is required' })}
-                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                            placeholder="e.g., ABC123"
-                          />
-                          {errors.catalogCode && (
-                            <p className="mt-1 text-sm text-red-400">{errors.catalogCode.message}</p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div>
-                        <label htmlFor="downloadLink" className="block text-sm font-medium text-gray-300">
-                          Download Link
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="url"
-                            id="downloadLink"
-                            {...register('downloadLink', { 
-                              required: 'Download link is required',
-                              pattern: {
-                                value: /^https?:\/\/.+/i,
-                                message: 'Please enter a valid URL'
-                              }
-                            })}
-                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                            placeholder="https://..."
-                          />
-                          {errors.downloadLink && (
-                            <p className="mt-1 text-sm text-red-400">{errors.downloadLink.message}</p>
-                          )}
-                        </div>
-                        <p className="mt-1 text-sm text-gray-400">
-                          Please provide a permanent download link containing all assets (music, artwork, details)
-                        </p>
-                      </div>
-
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                          Email
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="email"
-                            id="email"
-                            {...register('email', { 
-                              required: 'Email is required',
-                              pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: 'Please enter a valid email address'
-                              }
-                            })}
-                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                            placeholder="you@example.com"
-                          />
-                          {errors.email && (
-                            <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div>
-                        <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-300">
-                          Additional Information
-                        </label>
-                        <div className="mt-1">
-                          <textarea
-                            id="additionalInfo"
-                            rows={4}
-                            {...register('additionalInfo')}
-                            className="block w-full rounded-md border border-white/10 bg-white/5 px-4 py-3 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm"
-                            placeholder="Any additional information about your release"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="pt-4">
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className={buttonClasses + " w-full"}
-                          aria-label="Submit premiere request"
-                        >
-                          {isSubmitting ? 'Submitting...' : 'Submit Track'}
-                        </button>
-                      </div>
-
-                      {submitStatus === 'success' && (
-                        <div className="rounded-md bg-green-500/10 p-4 mt-4">
-                          <div className="flex">
-                            <div className="flex-shrink-0">
-                              <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-                              </svg>
-                            </div>
-                            <div className="ml-3">
-                              <p className="text-sm font-medium text-green-400">
-                                Submission successful! We'll be in touch soon.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {submitStatus === 'error' && errorMessage && (
-                        <div className="rounded-md bg-red-500/10 p-4 mt-4">
-                          <div className="flex">
-                            <div className="flex-shrink-0">
-                              <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
-                              </svg>
-                            </div>
-                            <div className="ml-3">
-                              <p className="text-sm font-medium text-red-400">
-                                {errorMessage || 'An error occurred. Please try again.'}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </form>
-                  </div>
-                </motion.div>
+                  <a
+                    href="https://docs.google.com/forms/d/e/1FAIpQLScnx8Fy6JhcHk10kbIN_u19_3edA_ZmsC6Cre2tvpDrJkpO4w/viewform"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center justify-center gap-2 rounded-lg bg-white/5 border border-white/10 px-6 py-6 text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200 group"
+                    aria-label="Step 2: Fill submission form"
+                  >
+                    <span className="text-xs font-mono tracking-widest text-white/50 uppercase group-hover:text-white/70 transition-colors">Step 2</span>
+                    <span className="text-lg font-bold tracking-tight">Submit Your Details</span>
+                    <span className="text-sm text-gray-400 text-center">Fill in your track info, download link & release details</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1184,7 +948,7 @@ export default function Home() {
               <h3 itemProp="name">How can I submit my music to OECUS?</h3>
               <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
                 <div itemProp="text">
-                  You can submit your track through our website's submission form in the Premieres section. We require your artist name, label, catalog code, download link, and email. We'll review your music and contact you if it's selected for a premiere.
+                  To submit your track for a premiere on OECUS, complete two steps: first, pay via our Stripe link to reserve your premiere slot, then fill in the Google Form with your track details, download link, release description, and social media handles. Our premiere package includes a SoundCloud premiere, YouTube premiere, and Instagram story promotion.
                 </div>
               </div>
             </div>

@@ -6,10 +6,6 @@ const nextConfig = {
     domains: ['oecus-music.com', 'soundcloud.com'],
     formats: ['image/avif', 'image/webp']
   },
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
-  },
   experimental: {
     optimizeCss: true,
     scrollRestoration: true,

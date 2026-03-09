@@ -4,8 +4,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: 'https://oecus-music.com',
-      lastModified: new Date('2025-06-16'),
-      changeFrequency: 'monthly',
+      lastModified: new Date('2026-03-09'),
+      changeFrequency: 'weekly',
       priority: 1,
     },
   ]
